@@ -4,7 +4,7 @@
 	"description": "A nextauth cli to setup a basic application Setup running",
 	"main": "./dist/index.js",
 	"bin": {
-		"init": "./dist/index.js"
+		"nextauth-init": "./dist/index.js"
 	},
 	"scripts": {
 		"link": "yarn --global unlink nextauth-cli && yarn --global link",
