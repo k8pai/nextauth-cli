@@ -1,0 +1,25 @@
+{
+	"name": "nextauth-cli",
+	"version": "0.0.0",
+	"description": "A nextauth cli to setup a basic application Setup running",
+	"main": "./dist/index.js",
+	"bin": {
+		"init": "./dist/index.js"
+	},
+	"scripts": {
+		"link": "yarn --global unlink nextauth-cli && yarn --global link",
+		"dev": "tsc -W"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"@types/node": "^20.5.9",
+		"typescript": "^5.2.2"
+	},
+	"dependencies": {
+		"chalk": "^5.3.0",
+		"commander": "^11.0.0",
+		"ora": "^7.0.1"
+	}
+}
