@@ -10,7 +10,7 @@ A cli tool to initialize nextauth setup with a simple command.
 -   Adds a `GithubProvider` Provider to the base auth file.
 
 ```bash
-	nextauth-init app --github
+nextauth-init app --github
 ```
 
 #### Configuration of .env file.
@@ -19,7 +19,7 @@ A cli tool to initialize nextauth setup with a simple command.
 -   We don't want to peek in your `.env` files, hence `.env.example`. 🫣
 
 ```bash
-	nextauth-init app --github --env
+nextauth-init app --github --env
 ```
 
 ## Fixes to be made.
@@ -32,13 +32,9 @@ A cli tool to initialize nextauth setup with a simple command.
 
 ## What-Status
 
-```json
-{
-	✔️: "Partially Fixed.",
-	✅: "Totally Fixed issues",
-	⚒️: "Build on Progress",
-	☑️: "Broken Command",
-	🎟️: "Bug and doesnt work",
-	🎫: "Bug present, but works. Upgrade on the way.",
-}
-```
+-   ✔️: "Partially Fixed.",
+-   ✅: "Totally Fixed issues",
+-   ⚒️: "Build on Progress",
+-   ☑️: "Broken Command",
+-   🎟️: "Bug and doesnt work",
+-   🎫: "Bug present, but works. Upgrade on the way.",
