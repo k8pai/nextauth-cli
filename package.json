@@ -1,10 +1,10 @@
 {
 	"name": "nextauth-cli",
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"description": "A nextauth cli to setup a basic application Setup running",
 	"main": "./dist/index.js",
 	"bin": {
-		"nextauth-init": "./dist/index.js"
+		"nextauth": "./dist/index.js"
 	},
 	"scripts": {
 		"link": "yarn --global unlink nextauth-cli && yarn --global link",
