@@ -10,12 +10,13 @@ A cli tool to initialize nextauth setup with a simple command.
 nextauth init [options] [command]
 ```
 
-**Arguments**
+### **Commands**
 
--   `command` - Next.js directory structure: '_next-pages_' for /pages router, '_next-app_' for /app router. (choices: "**next-app**","**next-pages**")
+-   `next-app` - For Next.js Projects with a **'/pages'** Router setup.
+-   `next-pages` - For Next.js Projects with a **'/pages'** Router setup.
 
-**Options**
-
+### **Options**
+**Provider Flags**
 -   `--Apple` - Adds Apple Provider.
 -   `--Atlassian` - Adds Atlassian Provider.
 -   `--Auth0` - Adds Auth0 Provider.
@@ -78,9 +79,14 @@ nextauth init [options] [command]
 -   `--Zitadel` - Adds Zitadel Provider.
 -   `--Zoho` - Adds Zoho Provider.
 -   `--Zoom` - Adds Zoom Provider.
+
+**Configuration Flags**
 -   `--env` - Create or Update `.env.example` file with all provider variables that has to be declared!
 -   `--ts` - Provide if you have a typescript project setup or not. `js` files are created by Default.
+
+**Help**
 -   `-h`, `--help` - display help for command.
+____
 
 ### Base Initialization ⚒️
 
