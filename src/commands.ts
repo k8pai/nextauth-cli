@@ -1,85 +1,48 @@
-import fs from 'fs';
-import path from 'path';
-// import ora from 'ora';
-// import chalk from 'chalk';
 import commander, { Command } from 'commander';
-import { generateBaseInitialTemplate } from './lib/base.js';
-import { initCommandOptions } from './typings.js';
-import { exec, execSync } from 'child_process';
+import { OptionsType, providers } from './lib/Providers.js';
+import { NextGenerator } from './Nextjs/index.js';
 const program = new Command();
 
-program
-	.addArgument(
-		new commander.Argument(
-			'<directory>',
-			`Next.js directory structure: 'src' for /src/pages router, 'pages' for /pages router, 'app' for /app router.`,
-		).choices(['src', 'pages', 'app']),
-	)
-	.option('--github', 'Add github Provider.')
-	.option('--google', 'Add Google Provider.')
+// `init` command instance!
+const init = program
+	.command('init')
+	.description(
+		'Initialize the basic steps of creating the files and setting up code.',
+	);
+
+// `next-app` command instance!
+const nextapp = init.command('next-app');
+
+// nextjs /app route initialization!
+nextapp
 	.option('--env', 'update .env file with provider variables as well!')
 	.option(
 		'--ts',
 		'Provide if you have a typescript project setup or not. Default js files are created...',
 	)
-	.action(async (dirStructure: string, options: initCommandOptions) => {
-		// console.log('options => ', options);
-		const { env, ts, ...configs } = options;
+	.action((options: OptionsType & { ts: boolean; env: boolean }) => {
+		NextGenerator(options, 'app', 'api/auth/[...nextauth]', 'route');
+	});
 
-		const dir = {
-			baseDirectory: '',
-			targetDirectory: 'api/auth',
-			filePath: '[...nextauth].js',
-			ext: '.js',
-		};
+// `next-pages` command instance!
+const nextpages = init.command('next-pages');
 
-		if (ts) {
-			dir.filePath = '[...nextauth].ts';
-			dir.ext = '.ts';
-		}
+// nextjs /pages route initialization!
+nextpages
+	.option('--env', 'update .env file with provider variables as well!')
+	.option(
+		'--ts',
+		'Provide if you have a typescript project setup or not. Default js files are created...',
+	)
+	.action((options: OptionsType & { ts: boolean; env: boolean }) => {
+		// NextpagesGenerator(options);
+		NextGenerator(options, 'pages', 'api/auth', '[...nextauth]');
+	});
 
-		if (dirStructure.toLowerCase() === 'src') {
-			dir.baseDirectory = path.join(process.cwd(), `src/pages`);
-		} else if (dirStructure.toLowerCase() === 'app') {
-			dir.baseDirectory = path.join(process.cwd(), `app`);
-			dir.targetDirectory = path.join(
-				dir.baseDirectory,
-				'api/auth/[...nextauth]',
-			);
-			dir.filePath = path.join(dir.targetDirectory, `route${dir.ext}`);
-		} else if (dirStructure.toLowerCase() === 'pages') {
-			dir.baseDirectory = path.join(process.cwd(), `pages`);
-			dir.targetDirectory = path.join(dir.baseDirectory, 'api/auth');
-			dir.filePath = path.join(
-				dir.targetDirectory,
-				`[...nextauth]${dir.ext}`,
-			);
-		}
-
-		if (!fs.existsSync(dir.baseDirectory)) {
-			console.error(
-				`Error: The "${dir.baseDirectory}" folder does not exist. Maybe you got your directory structure messed up... try using \n'init --help'`,
-			);
-			return;
-		}
-
-		try {
-			if (!fs.existsSync(dir.targetDirectory)) {
-				fs.mkdirSync(dir.targetDirectory, { recursive: true });
-			}
-			fs.writeFileSync(
-				dir.filePath,
-				generateBaseInitialTemplate(options),
-				'utf-8',
-			);
-
-			console.log(`Processing complete!`);
-		} catch (error) {
-			console.error(error);
-		}
-	})
-	.description(
-		'Initialize the basic steps of creating the files and setting up code.',
-	);
+// Adding options for both `next-app` and `next-pages` command!
+for (let key in providers) {
+	nextapp.option(`--${key}`, `Add ${key} Provider.`);
+	nextpages.option(`--${key}`, `Add ${key} Provider.`);
+}
 
 export default program;
