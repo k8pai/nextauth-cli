@@ -1,5 +1,4 @@
 import fs from 'fs';
-import { initCommandOptions } from '../typings';
 import { OptionsType, ProviderKeys, ProviderType } from './Providers';
 
 export const getProviders = (options: OptionsType) => {
