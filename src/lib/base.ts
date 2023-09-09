@@ -2,22 +2,22 @@ import fs from 'fs';
 import { initCommandOptions } from '../typings';
 import { OptionsType, ProviderKeys, ProviderType } from './Providers';
 
-export const getProviders = (options: Omit<initCommandOptions, 'ts'>) => {
+export const getProviders = (options: OptionsType) => {
 	let providers = '',
 		envVariables = '';
-	const { env } = options;
+	const { ts, env, ...config } = options;
 
-	for (const [key, value] of Object.entries(options)) {
+	for (const [key, value] of Object.entries(config)) {
 		if (key !== 'env' && value) {
-			const { name, id, secret } = ProviderKeys(
+			const { importName, name, id, secret } = ProviderKeys(
 				key as keyof ProviderType,
 			);
-			providers += `${name}({
+			providers += `${importName}({
 			clientId: process.env.${id},
 			clientSecret: process.env.${secret},
 		}),\n\t\t`;
 
-			envVariables += `# Environmental variables for ${name}\n${id}=\n${secret}=\n\n`;
+			envVariables += `\n# Environmental variables for ${name} Provider.\n${id}=\n${secret}=\n`;
 		}
 	}
 
@@ -46,11 +46,14 @@ export const getProviders = (options: Omit<initCommandOptions, 'ts'>) => {
 export const getProviderImports = (options: OptionsType) => {
 	let imports = '';
 
-	for (const [key, value] of Object.entries(options)) {
+	const { ts, ...config } = options;
+
+	for (const [key, value] of Object.entries(config)) {
 		if (key !== 'env' && value) {
-			imports += `import ${capitalize(
-				key,
-			)}Provider from 'next-auth/providers/${key.toLowerCase()}';\n`;
+			const { importName, path } = ProviderKeys(
+				key as keyof ProviderType,
+			);
+			imports += `import ${importName} from 'next-auth/providers/${path}';\n`;
 		}
 	}
 
