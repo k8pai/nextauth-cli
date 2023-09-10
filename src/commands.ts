@@ -1,17 +1,11 @@
-import commander, { Command } from 'commander';
+import { Command } from 'commander';
 import { OptionsType, providers } from './lib/Providers.js';
-import { NextGenerator } from './Nextjs/index.js';
+import { hasNonTsEnvKeys } from './lib/helpers.js';
+import { NextGenerator } from './lib/generators.js';
 const program = new Command();
 
-// `init` command instance!
-const init = program
-	.command('init')
-	.description(
-		'Initialize the basic steps of creating the files and setting up code.',
-	);
-
 // `next-app` command instance!
-const nextapp = init.command('next-app');
+const nextapp = program.command('next-app');
 
 // nextjs /app route initialization!
 nextapp
@@ -20,12 +14,15 @@ nextapp
 		'--ts',
 		'Provide if you have a typescript project setup or not. Default js files are created...',
 	)
-	.action((options: OptionsType & { ts: boolean; env: boolean }) => {
+	.action((options: OptionsType) => {
+		if (!hasNonTsEnvKeys(options)) {
+			options.GitHub = true;
+		}
 		NextGenerator(options, 'app', 'api/auth/[...nextauth]', 'route');
 	});
 
 // `next-pages` command instance!
-const nextpages = init.command('next-pages');
+const nextpages = program.command('next-pages');
 
 // nextjs /pages route initialization!
 nextpages
@@ -35,7 +32,9 @@ nextpages
 		'Provide if you have a typescript project setup or not. Default js files are created...',
 	)
 	.action((options: OptionsType & { ts: boolean; env: boolean }) => {
-		// NextpagesGenerator(options);
+		if (!hasNonTsEnvKeys(options)) {
+			options.GitHub = true;
+		}
 		NextGenerator(options, 'pages', 'api/auth', '[...nextauth]');
 	});
 
