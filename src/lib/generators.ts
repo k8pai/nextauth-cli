@@ -1,15 +1,15 @@
 import fs from 'fs';
 import path from 'path';
 import { OptionsType } from '../lib/Providers';
-import { generateBaseInitialTemplate } from '../lib/base';
+import { generateBaseInitialTemplate } from './helpers';
 
 export const NextGenerator = async (
-	options: OptionsType & { ts: boolean; env: boolean },
+	options: OptionsType,
 	dir: 'app' | 'pages',
 	target: 'api/auth/[...nextauth]' | 'api/auth',
 	file: '[...nextauth]' | 'route',
 ) => {
-	const { ts } = options;
+	const { ts, ...config } = options;
 
 	let baseDirectory = path.join(process.cwd(), dir);
 	let targetDirectory = path.join(baseDirectory, target);
@@ -30,7 +30,7 @@ export const NextGenerator = async (
 
 		fs.writeFileSync(
 			filePath,
-			generateBaseInitialTemplate(options),
+			generateBaseInitialTemplate(config, ts),
 			'utf-8',
 		);
 
