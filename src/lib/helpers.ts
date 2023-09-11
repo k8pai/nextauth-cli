@@ -1,11 +1,13 @@
 import fs from 'fs';
-import { AdapterType, DBType } from './Adapters';
+import { AdapterType, Adapters, DBType } from './Adapters';
 import { GeneratePrismaAdapter } from './Generators/prisma';
+import { GenerateMongodbAdapter } from './Generators/mongodb';
 import { OptionsType, ProviderKeys, ProviderType } from './Providers';
 
 export const getProviders = (
 	options: Omit<OptionsType, 'ts'>,
 	ts?: boolean,
+	adapter?: AdapterType,
 ) => {
 	let providers = '',
 		envVariables = '';
@@ -22,6 +24,14 @@ export const getProviders = (
 		}),`;
 
 			envVariables += `# Environmental variables for ${name} Provider.\n${id}=\n${secret}=\n`;
+		}
+	}
+
+	if (adapter && Adapters[adapter] && Adapters[adapter].secrets) {
+		let secrets = Adapters[adapter]?.secrets;
+		envVariables += `\n# Environmental variables for ${adapter} Adapter.`;
+		for (let secret of secrets) {
+			envVariables += `\n${secret}=`;
 		}
 	}
 
@@ -76,7 +86,7 @@ export const generateBaseInitialTemplate = (
 ${getProviderImports(options, ts, adapter)}
 export const authOptions${ts ? ': NextAuthOptions' : ''} = {
 	// Configure one or more authentication providers${comment}
-	providers: [${getProviders(options, ts)}
+	providers: [${getProviders(options, ts, adapter)}
 		// ...add more providers here
 	],${adapter ? generateAdapter(adapter) : ''}
 };
@@ -86,6 +96,9 @@ ${exp}`;
 
 const generateAdapterImport = (adapter: AdapterType) => {
 	switch (adapter) {
+		case 'mongodb':
+			return `import { MongoDBAdapter } from "@auth/mongodb-adapter"
+import clientPromise from "@lib/mongodb"\n`;
 		case 'prisma':
 			return `import { PrismaAdapter } from "@auth/prisma-adapter";
 import prisma from "@lib/prisma";\n`;
@@ -94,6 +107,8 @@ import prisma from "@lib/prisma";\n`;
 
 const generateAdapter = (adapter: AdapterType) => {
 	switch (adapter) {
+		case 'mongodb':
+			return '\n\tadapter: MongoDBAdapter(clientPromise),';
 		case 'prisma':
 			return '\n\tadapter: PrismaAdapter(prisma),';
 	}
@@ -133,6 +148,9 @@ export const GenerateAdapterConfigurations = (
 	switch (adapter) {
 		case 'prisma':
 			GeneratePrismaAdapter(ext, db);
+			break;
+		case 'mongodb':
+			GenerateMongodbAdapter(ext);
 			break;
 	}
 };
