@@ -1,4 +1,4 @@
-name: 'CI'
+name: 'nextauth-cli Publish'
 on:
     push:
         branches:
@@ -9,6 +9,11 @@ jobs:
         steps:
             - name: Checkout Actions
               uses: actions/checkout@v2
+
+            - name: Setup pnpm
+              uses: pnpm/action-setup@v2
+              with:
+                  version: 7
 
             - name: Checkout Node
               uses: actions/setup-node@v3
