@@ -3,10 +3,13 @@
 	"version": "0.0.2",
 	"description": "A nextauth cli to setup a basic application Setup running",
 	"main": "./dist/index.js",
+	"module": "./dist/index.mjs",
+	"types": "./dist/index.d.ts",
 	"bin": {
 		"nextauth": "./dist/index.js"
 	},
 	"scripts": {
+		"build": "tsup src --format cjs,esm --minify --dts",
 		"link": "yarn --global unlink nextauth-cli && yarn --global link",
 		"dev": "tsc -W"
 	},
@@ -15,7 +18,8 @@
 	"license": "ISC",
 	"devDependencies": {
 		"@types/node": "^20.5.9",
-		"typescript": "^5.2.2"
+		"typescript": "^5.2.2",
+		"tsup": "^7.2.0"
 	},
 	"dependencies": {
 		"@changesets/cli": "^2.26.2",

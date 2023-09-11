@@ -1,0 +1,26 @@
+name: 'CI'
+on:
+    push:
+        branches:
+            - 'k8pai'
+jobs:
+    changesets:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Actions
+              uses: actions/checkout@v2
+
+            - name: Checkout Node
+              uses: actions/setup-node@v3
+              with:
+                  node-version: '16'
+                  cache: 'pnpm'
+
+            - name: Install Dependencies
+              run: pnpm install --frozen-lockfile
+
+            - name: Changeset
+              id: changesets
+              uses: changesets/action@v1
+              with:
+                  publish: 'pnpm run build'
