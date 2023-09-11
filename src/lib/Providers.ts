@@ -1,3 +1,5 @@
+import { AdapterType, DBType } from './Adapters';
+
 export const providers = {
 	Apple: {
 		name: 'Apple',
@@ -448,6 +450,8 @@ export type ProviderType = {
 export type InitFlags = {
 	ts?: boolean;
 	env?: boolean;
+	adapter?: AdapterType;
+	db?: DBType;
 };
 
 export type OptionsType = ProviderType & InitFlags;
