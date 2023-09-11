@@ -1,4 +1,6 @@
 import fs from 'fs';
+import { AdapterType, DBType } from './Adapters';
+import { GeneratePrismaAdapter } from './Generators/prisma';
 import { OptionsType, ProviderKeys, ProviderType } from './Providers';
 
 export const getProviders = (
@@ -19,7 +21,7 @@ export const getProviders = (
 			clientSecret: process.env.${secret}${ts ? ' as string' : ''},
 		}),`;
 
-			envVariables += `# Environmental variables for ${name} Provider.\n${id}=\n${secret}=\n\n`;
+			envVariables += `# Environmental variables for ${name} Provider.\n${id}=\n${secret}=\n`;
 		}
 	}
 
@@ -36,7 +38,11 @@ export const getProviders = (
 	return providers;
 };
 
-export const getProviderImports = (options: OptionsType, ts?: boolean) => {
+export const getProviderImports = (
+	options: OptionsType,
+	ts?: boolean,
+	adapter?: AdapterType,
+) => {
 	let imports = ts
 		? `import type { NextAuthOptions } from "next-auth"\n`
 		: '';
@@ -52,30 +58,56 @@ export const getProviderImports = (options: OptionsType, ts?: boolean) => {
 		}
 	}
 
+	if (adapter) {
+		imports += generateAdapterImport(adapter);
+	}
+
 	return imports;
 };
 
 export const generateBaseInitialTemplate = (
 	options: Omit<OptionsType, 'ts'>,
 	ts?: boolean,
+	adapter?: AdapterType,
 ) => {
 	const { comment, export: exp } = getTsAdditions(ts);
 
 	return `import NextAuth from 'next-auth';
-${getProviderImports(options, ts)}
+${getProviderImports(options, ts, adapter)}
 export const authOptions${ts ? ': NextAuthOptions' : ''} = {
 	// Configure one or more authentication providers${comment}
 	providers: [${getProviders(options, ts)}
 		// ...add more providers here
-	],
+	],${adapter ? generateAdapter(adapter) : ''}
 };
 
 ${exp}`;
 };
 
+const generateAdapterImport = (adapter: AdapterType) => {
+	switch (adapter) {
+		case 'prisma':
+			return `import { PrismaAdapter } from "@auth/prisma-adapter";
+import prisma from "@lib/prisma";\n`;
+	}
+};
+
+const generateAdapter = (adapter: AdapterType) => {
+	switch (adapter) {
+		case 'prisma':
+			return '\n\tadapter: PrismaAdapter(prisma),';
+	}
+};
+
 export function hasNonTsEnvKeys(obj: OptionsType) {
 	for (let key in obj) {
-		if (obj.hasOwnProperty(key) && key !== 'ts' && key !== 'env') {
+		if (
+			obj.hasOwnProperty(key) &&
+			key !== 'ts' &&
+			key !== 'env' &&
+			key !== 'adapter' &&
+			key !== 'db'
+		) {
 			return true;
 		}
 	}
@@ -91,4 +123,16 @@ export { handler as GET, handler as POST };`,
 		};
 	}
 	return { comment: '', export: 'export default NextAuth(authOptions);' };
+};
+
+export const GenerateAdapterConfigurations = (
+	adapter?: AdapterType,
+	ext?: '.js' | '.ts',
+	db?: DBType,
+) => {
+	switch (adapter) {
+		case 'prisma':
+			GeneratePrismaAdapter(ext, db);
+			break;
+	}
 };
