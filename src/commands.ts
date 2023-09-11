@@ -14,6 +14,11 @@ nextapp
 		'--ts',
 		'Provide if you have a typescript project setup or not. Default js files are created...',
 	)
+	.option(
+		'--adapter <adapter>',
+		'Keep the value of the `--adapter` flag as your adapter.',
+	)
+	.option('--db <db>', 'Type of db provided.')
 	.action((options: OptionsType) => {
 		if (!hasNonTsEnvKeys(options)) {
 			options.GitHub = true;
@@ -31,6 +36,11 @@ nextpages
 		'--ts',
 		'Provide if you have a typescript project setup or not. Default js files are created...',
 	)
+	.option(
+		'--adapter <adapter>',
+		'Keep the value of the `--adapter` flag as your adapter.',
+	)
+	.option('--db <db>', 'Type of db provided.')
 	.action((options: OptionsType & { ts: boolean; env: boolean }) => {
 		if (!hasNonTsEnvKeys(options)) {
 			options.GitHub = true;
