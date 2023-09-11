@@ -1,7 +1,10 @@
 import fs from 'fs';
 import path from 'path';
 import { OptionsType } from '../lib/Providers';
-import { generateBaseInitialTemplate } from './helpers';
+import {
+	GenerateAdapterConfigurations,
+	generateBaseInitialTemplate,
+} from './helpers';
 
 export const NextGenerator = async (
 	options: OptionsType,
@@ -9,11 +12,13 @@ export const NextGenerator = async (
 	target: 'api/auth/[...nextauth]' | 'api/auth',
 	file: '[...nextauth]' | 'route',
 ) => {
-	const { ts, ...config } = options;
+	const { ts, adapter, db, ...config } = options;
+
+	console.log('adapters value => ', adapter);
 
 	let baseDirectory = path.join(process.cwd(), dir);
 	let targetDirectory = path.join(baseDirectory, target);
-	let ext = ts ? '.ts' : '.js';
+	let ext: '.js' | '.ts' = ts ? '.ts' : '.js';
 	let filePath = path.join(targetDirectory, `${file}${ext}`);
 
 	if (!fs.existsSync(baseDirectory)) {
@@ -30,10 +35,13 @@ export const NextGenerator = async (
 
 		fs.writeFileSync(
 			filePath,
-			generateBaseInitialTemplate(config, ts),
+			generateBaseInitialTemplate(config, ts, adapter),
 			'utf-8',
 		);
 
+		if (adapter) {
+			GenerateAdapterConfigurations(adapter, ext, db);
+		}
 		console.log(`Processing complete!`);
 	} catch (error) {
 		console.error(error);
