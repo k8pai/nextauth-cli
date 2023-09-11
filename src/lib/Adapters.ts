@@ -88,10 +88,6 @@ export const Adapters = {
 
 export type Adapter = typeof Adapters;
 
-export type AdapterType = {
-	[key in keyof Adapter]?: boolean;
-};
-
-export type AdapterOccurances = keyof typeof Adapters;
+export type AdapterType = keyof typeof Adapters;
 
 export type DBType = 'mongodb' | 'postgresql';
