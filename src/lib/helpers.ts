@@ -11,6 +11,7 @@ import {
 	AdapterType,
 	ExtentionTypes,
 } from '../typings';
+import { GenerateDynamodbAdapter } from './Generators/dynamodb';
 
 export const getProviders = (
 	options: Omit<OptionsType, 'ts'>,
@@ -109,6 +110,9 @@ const generateAdapterImport = (adapter: AdapterType) => {
 		case 'drizzle':
 			return `import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { db } from "@lib/schema";\n`;
+		case 'dynamodb':
+			return `import { DynamoDBAdapter } from "@auth/dynamodb-adapter"
+import { client } from "@lib/dynamodb";\n`;
 		case 'mongodb':
 			return `import { MongoDBAdapter } from "@auth/mongodb-adapter"
 import clientPromise from "@lib/mongodb"\n`;
@@ -130,6 +134,8 @@ const generateAdapter = (adapter: AdapterType) => {
 	}),`;
 		case 'drizzle':
 			return `\n\tadapter: DrizzleAdapter(db),`;
+		case 'dynamodb':
+			return `\n\tadapter: DynamoDBAdapter(client),`;
 		case 'mongodb':
 			return '\n\tadapter: MongoDBAdapter(clientPromise),';
 		case 'prisma':
@@ -171,6 +177,9 @@ export const GenerateAdapterConfigurations = (
 	switch (adapter) {
 		case 'drizzle':
 			GenerateDrizzleAdapter(db);
+			break;
+		case 'dynamodb':
+			GenerateDynamodbAdapter(ext);
 			break;
 		case 'prisma':
 			GeneratePrismaAdapter(ext, db);

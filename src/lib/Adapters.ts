@@ -20,7 +20,11 @@ export const Adapters = {
 		name: 'dynamodb',
 		importName: 'DynamoDBAdapter',
 		path: 'dynamodb-adapter',
-		secrets: [],
+		secrets: [
+			'NEXT_AUTH_AWS_ACCESS_KEY',
+			'NEXT_AUTH_AWS_SECRET_KEY',
+			'NEXT_AUTH_AWS_REGION',
+		],
 	},
 	fauna: {
 		name: 'fauna',

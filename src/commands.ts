@@ -1,7 +1,9 @@
 import { Command } from 'commander';
-import { OptionsType, providers } from './lib/Providers.js';
+import { providers } from './lib/Providers.js';
 import { hasNonTsEnvKeys } from './lib/helpers.js';
 import { NextGenerator } from './lib/generators.js';
+import { OptionsType } from './typings.js';
+
 const program = new Command();
 
 // `next-app` command instance!
