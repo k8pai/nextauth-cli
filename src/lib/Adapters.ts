@@ -101,9 +101,3 @@ export const Adapters = {
 		secrets: [],
 	},
 };
-
-export type Adapter = typeof Adapters;
-
-export type AdapterType = keyof typeof Adapters;
-
-export type DBType = 'mongodb' | 'postgresql';

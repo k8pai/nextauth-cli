@@ -16,7 +16,9 @@ nextauth init [options] [command]
 -   `next-pages` - For Next.js Projects with a **'/pages'** Router setup.
 
 ### **Options**
+
 **Provider Flags**
+
 -   `--Apple` - Adds Apple Provider.
 -   `--Atlassian` - Adds Atlassian Provider.
 -   `--Auth0` - Adds Auth0 Provider.
@@ -81,12 +83,15 @@ nextauth init [options] [command]
 -   `--Zoom` - Adds Zoom Provider.
 
 **Configuration Flags**
+
 -   `--env` - Create or Update `.env.example` file with all provider variables that has to be declared!
 -   `--ts` - Provide if you have a typescript project setup or not. `js` files are created by Default.
 
 **Help**
+
 -   `-h`, `--help` - display help for command.
-____
+
+---
 
 ### Base Initialization ⚒️
 
@@ -96,13 +101,13 @@ ____
 For Next.js Projects with _/app_ folder structure
 
 ```bash
-nextauth init next-app --GitHub
+nextauth next-app --GitHub
 ```
 
 For Next.js Projects with _/pages_ folder structure
 
 ```bash
-nextauth init next-pages --GitHub
+nextauth next-pages --GitHub
 ```
 
 ### Configuration of .env file. ✅
@@ -113,13 +118,13 @@ nextauth init next-pages --GitHub
 For Next.js Projects with _/app_ folder structure
 
 ```bash
-nextauth init next-app --GitHub --env
+nextauth next-app --GitHub --env
 ```
 
 For Next.js Projects with _/pages_ folder structure
 
 ```bash
-nextauth init next-pages --GitHub --env
+nextauth next-pages --GitHub --env
 ```
 
 ### Configuration for typescript projects. ✔️
@@ -129,14 +134,63 @@ nextauth init next-pages --GitHub --env
 For Next.js Projects with _/app_ folder structure
 
 ```bash
-nextauth init next-app --GitHub --env --ts
+nextauth next-app --GitHub --env --ts
 ```
 
 For Next.js Projects with _/pages_ folder structure
 
 ```bash
-nextauth init next-pages --GitHub --env --ts
+nextauth next-pages --GitHub --env --ts
 ```
+
+### Configuration for projects with Adapters. ✔️
+
+-   `--adapter` flags generates **adapters** in the `[...nextauth].{ts/js}` | `route.{ts/js}` files. By default no Adapters are generated.
+-   `--adapter` takes in an argument, of type `AdapterType` which includes **16** adapters that are currently supported by [authjs.dev](https://authjs.dev/reference/adapters).
+-   Checkout the status of all the adapters that are currently ready to use, and under updation.
+
+For Next.js Projects with _/app_ folder structure
+
+```bash
+nextauth next-app --GitHub --env --ts --adapter prisma
+```
+
+OR
+
+```bash
+nextauth next-app --GitHub --env --ts --adapter=prisma
+```
+
+For Next.js Projects with _/pages_ folder structure
+
+```bash
+nextauth next-pages --GitHub --env --ts --adapter prisma
+```
+
+OR
+
+```bash
+nextauth next-pages --GitHub --env --ts --adapter=prisma
+```
+
+## Adapters Support
+
+-   `dgraph`✅
+-   `drizzle`✅
+-   `dynamodb`⚒️
+-   `fauna`⚒️
+-   `firebase`⚒️
+-   `kysely`⚒️
+-   `mikro-orm`⚒️
+-   `mongodb`✅
+-   `neo4j`⚒️
+-   `pouchdb`⚒️
+-   `prisma` ✅
+-   `sequalize`⚒️
+-   `supabase`⚒️
+-   `typeorm`⚒️
+-   `upstash-redis`⚒️
+-   `xata`⚒️
 
 ## Fixes to be made.
 

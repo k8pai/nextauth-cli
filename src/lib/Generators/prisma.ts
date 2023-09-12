@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
-import { DBType } from '../Adapters';
+import { ExtentionTypes, prismaDbTypes } from '../../typings';
 
-export const GeneratePrismaSchema = (db: DBType = 'postgresql') => {
+export const GeneratePrismaSchema = (db: prismaDbTypes) => {
 	const schema = {
 		postgresql: `datasource db {
 	provider = "postgresql"
@@ -130,8 +130,8 @@ export default prisma;`;
 };
 
 export const GeneratePrismaAdapter = (
-	ext: '.js' | '.ts' = '.js',
-	db?: DBType,
+	ext: ExtentionTypes = '.js',
+	db: prismaDbTypes = 'postgresql',
 ) => {
 	const lib = path.join(process.cwd(), 'lib');
 	const schema = path.join(process.cwd(), 'prisma');

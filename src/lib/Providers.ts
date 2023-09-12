@@ -1,5 +1,3 @@
-import { AdapterType, DBType } from './Adapters';
-
 export const providers = {
 	Apple: {
 		name: 'Apple',
@@ -443,19 +441,6 @@ export const providers = {
 	},
 };
 
-export type Provider = typeof providers;
-export type ProviderType = {
-	[key in keyof Provider]?: boolean;
-};
-export type InitFlags = {
-	ts?: boolean;
-	env?: boolean;
-	adapter?: AdapterType;
-	db?: DBType;
-};
-
-export type OptionsType = ProviderType & InitFlags;
-
-export const ProviderKeys = (key: keyof ProviderType) => {
+export const ProviderKeys = (key: keyof typeof providers) => {
 	return providers[key];
 };

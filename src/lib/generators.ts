@@ -1,10 +1,10 @@
 import fs from 'fs';
 import path from 'path';
-import { OptionsType } from '../lib/Providers';
 import {
 	GenerateAdapterConfigurations,
 	generateBaseInitialTemplate,
 } from './helpers';
+import { ExtentionTypes, OptionsType } from '../typings';
 
 export const NextGenerator = async (
 	options: OptionsType,
@@ -18,7 +18,7 @@ export const NextGenerator = async (
 
 	let baseDirectory = path.join(process.cwd(), dir);
 	let targetDirectory = path.join(baseDirectory, target);
-	let ext: '.js' | '.ts' = ts ? '.ts' : '.js';
+	let ext: ExtentionTypes = ts ? '.ts' : '.js';
 	let filePath = path.join(targetDirectory, `${file}${ext}`);
 
 	if (!fs.existsSync(baseDirectory)) {
@@ -40,7 +40,7 @@ export const NextGenerator = async (
 		);
 
 		if (adapter) {
-			GenerateAdapterConfigurations(adapter, ext, db);
+			GenerateAdapterConfigurations(ext, db, adapter);
 		}
 		console.log(`Processing complete!`);
 	} catch (error) {

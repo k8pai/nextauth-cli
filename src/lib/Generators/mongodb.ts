@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
-import { DBType } from '../Adapters';
+import { ExtentionTypes } from '../../typings';
 
-export const GenerateMongodbClient = (ext: '.js' | '.ts') => {
+export const GenerateMongodbClient = (ext: ExtentionTypes) => {
 	return `// This approach is taken from https://github.com/vercel/next.js/tree/canary/examples/with-mongodb
 import { MongoClient } from "mongodb";
 
@@ -35,7 +35,7 @@ if (process.env.NODE_ENV === "development") {
 export default clientPromise;`;
 };
 
-export const GenerateMongodbAdapter = (ext: '.js' | '.ts' = '.js') => {
+export const GenerateMongodbAdapter = (ext: ExtentionTypes = '.js') => {
 	const lib = path.join(process.cwd(), 'lib');
 	const file = path.join(lib, `mongodb${ext}`);
 
