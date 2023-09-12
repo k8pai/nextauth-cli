@@ -9,6 +9,8 @@ node_modules
 dist
 app
 pages
+lib
+prisma
 .env.example
 
 # Book build output
