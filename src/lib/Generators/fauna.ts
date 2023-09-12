@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { ExtentionTypes } from '../../typings';
+import { CreateFolderAndWrite } from '../helpers';
 
 const GenerateFaunaConfig = () => {
 	return `import { Client } from 'faunadb';
@@ -16,12 +17,8 @@ export default client;`;
 };
 
 export const GenerateFaunaAdapter = (ext: ExtentionTypes) => {
-	const lib = path.join(process.cwd(), 'lib');
-	let file = path.join(lib, `fauna${ext}`);
-
-	if (!fs.existsSync(lib)) {
-		fs.mkdirSync(lib, { recursive: true });
-	}
-
-	fs.writeFileSync(file, GenerateFaunaConfig(), 'utf-8');
+	let folder = 'lib',
+		file = `fauna${ext}`,
+		content = GenerateFaunaConfig();
+	CreateFolderAndWrite(folder, file, content);
 };

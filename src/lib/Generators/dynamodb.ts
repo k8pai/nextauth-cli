@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { ExtentionTypes } from '../../typings';
+import { CreateFolderAndWrite } from '../helpers';
 
 const GenerateDynamodbConfig = (ext: ExtentionTypes) => {
 	return `import { DynamoDB${
@@ -30,12 +31,8 @@ export const client = DynamoDBDocument.from(new DynamoDB(config), {
 };
 
 export const GenerateDynamodbAdapter = (ext: ExtentionTypes) => {
-	const lib = path.join(process.cwd(), 'lib');
-	const file = path.join(lib, `dynamodb${ext}`);
-
-	if (!fs.existsSync(lib)) {
-		fs.mkdirSync(lib, { recursive: true });
-	}
-
-	fs.writeFileSync(file, GenerateDynamodbConfig(ext), 'utf-8');
+	let folder = 'lib',
+		file = `dynamodb${ext}`,
+		content = GenerateDynamodbConfig(ext);
+	CreateFolderAndWrite(folder, file, content);
 };

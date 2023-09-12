@@ -13,6 +13,7 @@ import {
 } from '../typings';
 import { GenerateDynamodbAdapter } from './Generators/dynamodb';
 import { GenerateFaunaAdapter } from './Generators/fauna';
+import path from 'path';
 
 export const getProviders = (
 	options: Omit<OptionsType, 'ts'>,
@@ -199,4 +200,19 @@ export const GenerateAdapterConfigurations = (
 			GenerateMongodbAdapter(ext);
 			break;
 	}
+};
+
+export const CreateFolderAndWrite = (
+	folder: string,
+	file: string,
+	content: string,
+) => {
+	const lib = path.join(process.cwd(), folder);
+	const fileName = path.join(lib, file);
+
+	if (!fs.existsSync(lib)) {
+		fs.mkdirSync(lib, { recursive: true });
+	}
+
+	fs.writeFileSync(fileName, content, 'utf-8');
 };

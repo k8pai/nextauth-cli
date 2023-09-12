@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { drizzleDbTypes } from '../../typings';
+import { CreateFolderAndWrite } from '../helpers';
 
 export const GenerateDrizzleSchema = (db: drizzleDbTypes) => {
 	const adapter: Record<drizzleDbTypes, string> = {
@@ -188,12 +189,8 @@ export const verificationTokens = sqliteTable(
 };
 
 export const GenerateDrizzleAdapter = (db: drizzleDbTypes = 'postgres') => {
-	const lib = path.join(process.cwd(), 'lib');
-	let file = path.join(lib, `schema.ts`);
-
-	if (!fs.existsSync(lib)) {
-		fs.mkdirSync(lib, { recursive: true });
-	}
-
-	fs.writeFileSync(file, GenerateDrizzleSchema(db), 'utf-8');
+	let folder = 'lib',
+		file = 'schema.ts',
+		content = GenerateDrizzleSchema(db);
+	CreateFolderAndWrite(folder, file, content);
 };

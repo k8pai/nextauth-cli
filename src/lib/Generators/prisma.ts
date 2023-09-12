@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { ExtentionTypes, prismaDbTypes } from '../../typings';
+import { CreateFolderAndWrite } from '../helpers';
 
 export const GeneratePrismaSchema = (db: prismaDbTypes) => {
 	const schema = {
@@ -133,19 +134,6 @@ export const GeneratePrismaAdapter = (
 	ext: ExtentionTypes = '.js',
 	db: prismaDbTypes = 'postgresql',
 ) => {
-	const lib = path.join(process.cwd(), 'lib');
-	const schema = path.join(process.cwd(), 'prisma');
-	let libPath = path.join(lib, `prisma${ext}`);
-	let schemaPath = path.join(schema, `schema.prisma`);
-
-	if (!fs.existsSync(lib)) {
-		fs.mkdirSync(lib, { recursive: true });
-	}
-
-	if (!fs.existsSync(schema)) {
-		fs.mkdirSync(schema, { recursive: true });
-	}
-
-	fs.writeFileSync(libPath, GeneratePrismaConfig(), 'utf-8');
-	fs.writeFileSync(schemaPath, GeneratePrismaSchema(db), 'utf-8');
+	CreateFolderAndWrite('lib', `prisma${ext}`, GeneratePrismaConfig());
+	CreateFolderAndWrite('prisma', `schema.prisma`, GeneratePrismaSchema(db));
 };

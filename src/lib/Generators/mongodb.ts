@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { ExtentionTypes } from '../../typings';
+import { CreateFolderAndWrite } from '../helpers';
 
 export const GenerateMongodbClient = (ext: ExtentionTypes) => {
 	return `// This approach is taken from https://github.com/vercel/next.js/tree/canary/examples/with-mongodb
@@ -36,12 +37,8 @@ export default clientPromise;`;
 };
 
 export const GenerateMongodbAdapter = (ext: ExtentionTypes = '.js') => {
-	const lib = path.join(process.cwd(), 'lib');
-	const file = path.join(lib, `mongodb${ext}`);
-
-	if (!fs.existsSync(lib)) {
-		fs.mkdirSync(lib, { recursive: true });
-	}
-
-	fs.writeFileSync(file, GenerateMongodbClient(ext), 'utf-8');
+	let folder = 'lib',
+		file = `mongodb${ext}`,
+		content = GenerateMongodbClient(ext);
+	CreateFolderAndWrite(folder, file, content);
 };
