@@ -12,6 +12,7 @@ import {
 	ExtentionTypes,
 } from '../typings';
 import { GenerateDynamodbAdapter } from './Generators/dynamodb';
+import { GenerateFaunaAdapter } from './Generators/fauna';
 
 export const getProviders = (
 	options: Omit<OptionsType, 'ts'>,
@@ -38,7 +39,9 @@ export const getProviders = (
 
 	if (adapter && Adapters[adapter] && Adapters[adapter].secrets) {
 		let secrets = Adapters[adapter]?.secrets;
-		envVariables += `\n# Environmental variables for ${adapter} Adapter.`;
+		if (secrets.length > 0) {
+			envVariables += `\n# Environmental variables for ${adapter} Adapter.`;
+		}
 		for (let secret of secrets) {
 			envVariables += `\n${secret}=`;
 		}
@@ -113,6 +116,9 @@ import { db } from "@lib/schema";\n`;
 		case 'dynamodb':
 			return `import { DynamoDBAdapter } from "@auth/dynamodb-adapter"
 import { client } from "@lib/dynamodb";\n`;
+		case 'fauna':
+			return `import { FaunaAdapter } from "@auth/fauna-adapter"
+import client from "@lib/fauna";\n`;
 		case 'mongodb':
 			return `import { MongoDBAdapter } from "@auth/mongodb-adapter"
 import clientPromise from "@lib/mongodb"\n`;
@@ -136,6 +142,8 @@ const generateAdapter = (adapter: AdapterType) => {
 			return `\n\tadapter: DrizzleAdapter(db),`;
 		case 'dynamodb':
 			return `\n\tadapter: DynamoDBAdapter(client),`;
+		case 'fauna':
+			return `\n\tadapter: FaunaAdapter(client),`;
 		case 'mongodb':
 			return '\n\tadapter: MongoDBAdapter(clientPromise),';
 		case 'prisma':
@@ -180,6 +188,9 @@ export const GenerateAdapterConfigurations = (
 			break;
 		case 'dynamodb':
 			GenerateDynamodbAdapter(ext);
+			break;
+		case 'fauna':
+			GenerateFaunaAdapter(ext);
 			break;
 		case 'prisma':
 			GeneratePrismaAdapter(ext, db);
