@@ -1,8 +1,16 @@
 import fs from 'fs';
-import { AdapterType, Adapters, DBType } from './Adapters';
+import { Adapters } from './Adapters';
 import { GeneratePrismaAdapter } from './Generators/prisma';
 import { GenerateMongodbAdapter } from './Generators/mongodb';
-import { OptionsType, ProviderKeys, ProviderType } from './Providers';
+import { ProviderKeys } from './Providers';
+import { GenerateDrizzleAdapter } from './Generators/drizzle';
+import {
+	DbTypes,
+	ProviderType,
+	OptionsType,
+	AdapterType,
+	ExtentionTypes,
+} from '../typings';
 
 export const getProviders = (
 	options: Omit<OptionsType, 'ts'>,
@@ -98,6 +106,9 @@ const generateAdapterImport = (adapter: AdapterType) => {
 	switch (adapter) {
 		case 'dgraph':
 			return `import { DgraphAdapter } from "@auth/dgraph-adapter"\n`;
+		case 'drizzle':
+			return `import { DrizzleAdapter } from "@auth/drizzle-adapter";
+import { db } from "@lib/schema";\n`;
 		case 'mongodb':
 			return `import { MongoDBAdapter } from "@auth/mongodb-adapter"
 import clientPromise from "@lib/mongodb"\n`;
@@ -117,6 +128,8 @@ const generateAdapter = (adapter: AdapterType) => {
 		authHeader: process.env.AUTH_HEADER, // default: "Authorization",
 		jwtSecret: process.env.SECRET,
 	}),`;
+		case 'drizzle':
+			return `\n\tadapter: DrizzleAdapter(db),`;
 		case 'mongodb':
 			return '\n\tadapter: MongoDBAdapter(clientPromise),';
 		case 'prisma':
@@ -151,11 +164,14 @@ export { handler as GET, handler as POST };`,
 };
 
 export const GenerateAdapterConfigurations = (
+	ext: ExtentionTypes = '.js',
+	db?: DbTypes,
 	adapter?: AdapterType,
-	ext?: '.js' | '.ts',
-	db?: DBType,
 ) => {
 	switch (adapter) {
+		case 'drizzle':
+			GenerateDrizzleAdapter(db);
+			break;
 		case 'prisma':
 			GeneratePrismaAdapter(ext, db);
 			break;
