@@ -96,6 +96,8 @@ ${exp}`;
 
 const generateAdapterImport = (adapter: AdapterType) => {
 	switch (adapter) {
+		case 'dgraph':
+			return `import { DgraphAdapter } from "@auth/dgraph-adapter"\n`;
 		case 'mongodb':
 			return `import { MongoDBAdapter } from "@auth/mongodb-adapter"
 import clientPromise from "@lib/mongodb"\n`;
@@ -107,6 +109,14 @@ import prisma from "@lib/prisma";\n`;
 
 const generateAdapter = (adapter: AdapterType) => {
 	switch (adapter) {
+		case 'dgraph':
+			return `\n\tadapter: DgraphAdapter({
+		endpoint: process.env.DGRAPH_GRAPHQL_ENDPOINT,
+		authToken: process.env.DGRAPH_GRAPHQL_KEY,
+		// you can omit the following properties if you are running an unsecure schema
+		authHeader: process.env.AUTH_HEADER, // default: "Authorization",
+		jwtSecret: process.env.SECRET,
+	}),`;
 		case 'mongodb':
 			return '\n\tadapter: MongoDBAdapter(clientPromise),';
 		case 'prisma':
