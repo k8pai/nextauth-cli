@@ -177,29 +177,26 @@ nextauth next-pages --GitHub --env --ts --adapter=prisma
 
 -   `dgraph`✅
 -   `drizzle`✅
--   `dynamodb`⚒️
--   `fauna`⚒️
--   `firebase`⚒️
--   `kysely`⚒️
+-   `dynamodb`✅
+-   `fauna`✅
+-   `firebase`✅
+-   `kysely`✅
 -   `mikro-orm`⚒️
 -   `mongodb`✅
--   `neo4j`⚒️
+-   `neo4j`✅
 -   `pouchdb`⚒️
 -   `prisma` ✅
--   `sequalize`⚒️
--   `supabase`⚒️
--   `typeorm`⚒️
--   `upstash-redis`⚒️
+-   `sequalize`✅
+-   `supabase`✅
+-   `typeorm`✅
+-   `upstash-redis`✅
 -   `xata`⚒️
 
 ## Fixes to be made.
 
+-   Adapters `xata`, `pouchdb` and `mikro-orm` are to be made effective. ✔️
 -   Fix `route.ts` file exports for latest **Next.js 13.4+** versions. ✔️
 -   Fix `src/pages` directory structure. ☑️
--   Rename commands. ✔️
--   Fix `--ts` flag for all routes. ✅
--   Meaningful Comments in `.env.example` File. ✅
--   Base Configuration. ✅
 
 ## What-Status
 
