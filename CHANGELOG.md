@@ -1,5 +1,12 @@
 # nextauth-cli
 
+## 0.0.4
+
+### Patch Changes
+
+- - Support for adapters available.
+  - Autogenerating variables are now stable with variables for adapter support is available now.
+
 ## 0.0.3
 
 ### Patch Changes
