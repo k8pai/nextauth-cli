@@ -2,9 +2,11 @@ import fs from 'fs';
 import path from 'path';
 import {
 	GenerateAdapterConfigurations,
+	// checkSimilarAdapter,
 	generateBaseInitialTemplate,
 } from './helpers';
 import { ExtentionTypes, OptionsType } from '../typings';
+import { Adapters } from './Adapters';
 
 export const NextGenerator = async (
 	options: OptionsType,
@@ -13,8 +15,6 @@ export const NextGenerator = async (
 	file: '[...nextauth]' | 'route',
 ) => {
 	const { ts, adapter, db, ...config } = options;
-
-	console.log('adapters value => ', adapter);
 
 	let baseDirectory = path.join(process.cwd(), dir);
 	let targetDirectory = path.join(baseDirectory, target);
@@ -40,7 +40,15 @@ export const NextGenerator = async (
 		);
 
 		if (adapter) {
-			GenerateAdapterConfigurations(ext, db, adapter);
+			if (Adapters[adapter]) {
+				GenerateAdapterConfigurations(ext, db, adapter);
+			} else {
+				// console.log(
+				// 	`No such Adapter support is available. Did you mean '${checkSimilarAdapter(
+				// 		adapter,
+				// 	)}'?`,
+				// );
+			}
 		}
 		console.log(`Processing complete!`);
 	} catch (error) {

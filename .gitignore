@@ -9,7 +9,7 @@ node_modules
 dist
 app
 pages
-lib
+/lib
 prisma
 .env.example
 

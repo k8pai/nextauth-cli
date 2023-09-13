@@ -14,6 +14,14 @@ import {
 import { GenerateDynamodbAdapter } from './Generators/dynamodb';
 import { GenerateFaunaAdapter } from './Generators/fauna';
 import path from 'path';
+import { GenerateFirebaseAdapter } from './Generators/firebase';
+import { GenerateKyselyAdapter } from './Generators/kysely';
+import { GenerateMikroOrmAdapter } from './Generators/mikroOrm';
+import { GenerateNeo4jAdapter } from './Generators/neo4j';
+import { GenerateUpstashRedisAdapter } from './Generators/upstashRedis';
+import { GenerateSupabaseAdapter } from './Generators/supabase';
+import { GenerateSequelizeAdapter } from './Generators/sequelize';
+import { GenerateDgraphAdapter } from './Generators/dgraph';
 
 export const getProviders = (
 	options: Omit<OptionsType, 'ts'>,
@@ -81,7 +89,7 @@ export const getProviderImports = (
 		}
 	}
 
-	if (adapter) {
+	if (adapter && Adapters[adapter]) {
 		imports += generateAdapterImport(adapter);
 	}
 
@@ -101,55 +109,57 @@ export const authOptions${ts ? ': NextAuthOptions' : ''} = {
 	// Configure one or more authentication providers${comment}
 	providers: [${getProviders(options, ts, adapter)}
 		// ...add more providers here
-	],${adapter ? generateAdapter(adapter) : ''}
+	],${adapter && Adapters[adapter] ? generateAdapter(adapter) : ''}
 };
 
 ${exp}`;
 };
 
 const generateAdapterImport = (adapter: AdapterType) => {
+	let { importName, path } = Adapters[adapter];
+	let adapterImports = `import { ${importName} } from "@auth/${path}";`;
+
 	switch (adapter) {
 		case 'dgraph':
-			return `import { DgraphAdapter } from "@auth/dgraph-adapter"\n`;
+			return `${adapterImports}\nimport { config } from "@lib/config";\n`;
 		case 'drizzle':
-			return `import { DrizzleAdapter } from "@auth/drizzle-adapter";
-import { db } from "@lib/schema";\n`;
+			return `${adapterImports}\nimport { db } from "@lib/schema";\n`;
 		case 'dynamodb':
-			return `import { DynamoDBAdapter } from "@auth/dynamodb-adapter"
-import { client } from "@lib/dynamodb";\n`;
+			return `${adapterImports}\nimport { client } from "@lib/dynamodb";\n`;
 		case 'fauna':
-			return `import { FaunaAdapter } from "@auth/fauna-adapter"
-import client from "@lib/fauna";\n`;
+			return `${adapterImports}\nimport { client } from "@lib/fauna";\n`;
+		case 'firebase':
+			return `${adapterImports}\nimport { firestore } from "@lib/firestore";\n`;
+		case 'kysely':
+			return `${adapterImports}\nimport { db } from "@lib/db";\n`;
+		case 'mikroOrm':
+			return `${adapterImports}\nimport { config } from "@lib/config";\n`;
 		case 'mongodb':
-			return `import { MongoDBAdapter } from "@auth/mongodb-adapter"
-import clientPromise from "@lib/mongodb"\n`;
+			return `${adapterImports}\nimport clientPromise from "@lib/mongodb"\n`;
+		case 'neo4j':
+			return `${adapterImports}\nimport neo4jSession from "@lib/config";\n`;
+		case 'pouchdb':
+			return;
 		case 'prisma':
-			return `import { PrismaAdapter } from "@auth/prisma-adapter";
-import prisma from "@lib/prisma";\n`;
+			return `${adapterImports}\nimport prisma from "@lib/prisma";\n`;
+		case 'sequalize':
+			return `${adapterImports}\nimport sequelize from "@lib/config";\n`;
+		case 'supabase':
+			return `${adapterImports}\nimport { config } from "@lib/config";\n`;
+		case 'typeorm':
+			return `${adapterImports}\n`;
+		case 'upstashRedis':
+			return `${adapterImports}\nimport redis from "@lib/redis";\n`;
+		case 'xata':
+			return `${adapterImports}\nimport { XataClient } from "@lib/xata";\n`;
 	}
 };
 
-const generateAdapter = (adapter: AdapterType) => {
-	switch (adapter) {
-		case 'dgraph':
-			return `\n\tadapter: DgraphAdapter({
-		endpoint: process.env.DGRAPH_GRAPHQL_ENDPOINT,
-		authToken: process.env.DGRAPH_GRAPHQL_KEY,
-		// you can omit the following properties if you are running an unsecure schema
-		authHeader: process.env.AUTH_HEADER, // default: "Authorization",
-		jwtSecret: process.env.SECRET,
-	}),`;
-		case 'drizzle':
-			return `\n\tadapter: DrizzleAdapter(db),`;
-		case 'dynamodb':
-			return `\n\tadapter: DynamoDBAdapter(client),`;
-		case 'fauna':
-			return `\n\tadapter: FaunaAdapter(client),`;
-		case 'mongodb':
-			return '\n\tadapter: MongoDBAdapter(clientPromise),';
-		case 'prisma':
-			return '\n\tadapter: PrismaAdapter(prisma),';
-	}
+const generateAdapter = (customAdapter: AdapterType) => {
+	const { adapterParams: params, importName: adapter } =
+		Adapters[customAdapter];
+
+	return `\n\tadapter: ${adapter}(${params})`;
 };
 
 export function hasNonTsEnvKeys(obj: OptionsType) {
@@ -184,6 +194,9 @@ export const GenerateAdapterConfigurations = (
 	adapter?: AdapterType,
 ) => {
 	switch (adapter) {
+		case 'dgraph':
+			GenerateDgraphAdapter(ext);
+			break;
 		case 'drizzle':
 			GenerateDrizzleAdapter(db);
 			break;
@@ -193,11 +206,35 @@ export const GenerateAdapterConfigurations = (
 		case 'fauna':
 			GenerateFaunaAdapter(ext);
 			break;
-		case 'prisma':
-			GeneratePrismaAdapter(ext, db);
+		case 'firebase':
+			GenerateFirebaseAdapter(ext);
+			break;
+		case 'kysely':
+			GenerateKyselyAdapter(ext);
+			break;
+		case 'mikroOrm':
+			GenerateMikroOrmAdapter(ext);
 			break;
 		case 'mongodb':
 			GenerateMongodbAdapter(ext);
+			break;
+		case 'neo4j':
+			GenerateNeo4jAdapter(ext);
+			break;
+		case 'pouchdb':
+			// GenerateKyselyAdapter(ext);
+			break;
+		case 'prisma':
+			GeneratePrismaAdapter(ext, db);
+			break;
+		case 'sequalize':
+			GenerateSequelizeAdapter(ext);
+			break;
+		case 'supabase':
+			GenerateSupabaseAdapter(ext);
+			break;
+		case 'upstashRedis':
+			GenerateUpstashRedisAdapter(ext);
 			break;
 	}
 };
@@ -216,3 +253,67 @@ export const CreateFolderAndWrite = (
 
 	fs.writeFileSync(fileName, content, 'utf-8');
 };
+
+// const levenshteinDistance = (a: string, b: string): number => {
+// 	const m = a.length;
+// 	const n = b.length;
+// 	const dp = Array.from(Array(m + 1), () => Array(n + 1).fill(0));
+
+// 	for (let i = 0; i <= m; i++) {
+// 		dp[i][0] = i;
+// 	}
+
+// 	for (let j = 0; j <= n; j++) {
+// 		dp[0][j] = j;
+// 	}
+
+// 	for (let i = 1; i <= m; i++) {
+// 		for (let j = 1; j <= n; j++) {
+// 			const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+// 			dp[i][j] = Math.min(
+// 				dp[i - 1][j] + 1,
+// 				dp[i][j - 1] + 1,
+// 				dp[i - 1][j - 1] + cost,
+// 			);
+// 		}
+// 	}
+
+// 	return dp[m][n];
+// };
+
+// export const checkSimilarAdapter = (mistypedValue: string): AdapterType => {
+// 	const availableAdapters: Array<AdapterType> = [
+// 		'dgraph',
+// 		'drizzle',
+// 		'dynamodb',
+// 		'fauna',
+// 		'firebase',
+// 		'kysely',
+// 		'mongodb',
+// 		'neo4j',
+// 		'pouchdb',
+// 		'prisma',
+// 		'supabase',
+// 		'typeorm',
+// 		'xata',
+// 		'mikroOrm',
+// 		'sequalize',
+// 		'upstashRedis',
+// 	];
+
+// 	let closestAdapter: AdapterType = availableAdapters[0] ?? 'dgraph';
+// 	let minDistance = levenshteinDistance(mistypedValue, availableAdapters[0]);
+
+// 	for (let i = 1; i < availableAdapters.length; i++) {
+// 		const distance = levenshteinDistance(
+// 			mistypedValue,
+// 			availableAdapters[i],
+// 		);
+// 		if (distance < minDistance) {
+// 			minDistance = distance;
+// 			closestAdapter = availableAdapters[i];
+// 		}
+// 	}
+
+// 	return closestAdapter;
+// };
