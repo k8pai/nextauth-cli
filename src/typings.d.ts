@@ -8,6 +8,7 @@ export type AdapterType = keyof typeof Adapters;
 
 // Provider Types
 export type Provider = typeof providers;
+export type ProviderOptions = keyof typeof providers;
 export type ProviderType = {
 	[key in keyof typeof providers]?: boolean;
 };
@@ -15,8 +16,11 @@ export type InitFlags = {
 	ts?: boolean;
 	env?: boolean;
 	adapter?: AdapterType;
+	router?: 'app' | 'pages';
 	db?: DbTypes;
 };
+
+export type FlagOptions = 'ts' | 'env' | 'adapter' | 'router' | 'db';
 
 export type OptionsType = ProviderType & InitFlags;
 
