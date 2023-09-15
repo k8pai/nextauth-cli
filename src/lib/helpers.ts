@@ -35,7 +35,7 @@ export const getProviderImports = (
 
 	const { env, ...config } = options;
 
-	console.log('keys in configs from getProviderImports => ', config);
+	// console.log('keys in configs from getProviderImports => ', config);
 
 	for (let val in config) {
 		console.log('val = ', val);
@@ -64,7 +64,7 @@ export const getProviders = (
 		envVariables = '';
 	const { env, ...config } = options;
 
-	console.log('keys in configs from getProviders => ', config);
+	// console.log('keys in configs from getProviders => ', config);
 
 	for (const [key, value] of Object.entries(config)) {
 		params = '';
@@ -149,15 +149,15 @@ const generateAdapter = (customAdapter: AdapterType) => {
 	return `\n\tadapter: ${adapter}(${params})`;
 };
 
-export function hasProvider(obj: OptionsType, keys: FlagOptions[]) {
+export function hasValidProviders(obj: OptionsType, keys: FlagOptions[]) {
 	for (let key in obj) {
-		console.log(`Processing key => ${key}`);
+		// console.log(`Processing key => ${key}`);
 		if (obj.hasOwnProperty(key) && !keys.includes(key as FlagOptions)) {
-			console.log(`Key ${key} is not included in the 'keys' array.`);
-			return false;
+			// console.log(`Key ${key} is not included in the 'keys' array.`);
+			return true;
 		}
 	}
-	return true;
+	return false;
 }
 
 const getTsAdditions = (ts?: boolean) => {

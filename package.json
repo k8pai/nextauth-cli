@@ -16,6 +16,7 @@
 	"license": "ISC",
 	"devDependencies": {
 		"@types/node": "^20.5.9",
+		"@types/prompts": "^2.4.4",
 		"tsup": "^7.2.0",
 		"typescript": "^5.2.2"
 	},
@@ -25,6 +26,8 @@
 		"chalk-template": "^1.1.0",
 		"commander": "^11.0.0",
 		"next-auth": "^4.23.1",
-		"ora": "^7.0.1"
+		"ora": "^7.0.1",
+		"picocolors": "^1.0.0",
+		"prompts": "^2.4.2"
 	}
 }
