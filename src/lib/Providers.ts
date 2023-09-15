@@ -12,6 +12,23 @@ export const providers = {
 		path: 'apple',
 		options: { clientId: 'APPLE_ID', clientSecret: 'APPLE_SECRET' },
 	},
+	Asgardeo: {
+		name: 'Asgardeo',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'AsgardeoProvider',
+				path: 'next-auth/providers/asgardeo',
+			},
+		],
+		importName: 'AsgardeoProvider',
+		path: 'asgardeo',
+		options: {
+			clientId: 'ASGARDEO_ID',
+			clientSecret: 'ASGARDEO_SECRET',
+			issuer: 'ASGARDEO_ISSUER',
+		},
+	},
 	Atlassian: {
 		name: 'Atlassian',
 		importOptions: [
@@ -81,6 +98,23 @@ export const providers = {
 		path: 'azure-ad-b2c',
 		options: { clientId: 'AZUREB2C_ID', clientSecret: 'AZUREB2C_SECRET' },
 	},
+	AzureDevOps: {
+		name: 'AzureDevOps',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'AzureDevOpsProvider',
+				path: 'next-auth/providers/azure-devops',
+			},
+		],
+		importName: 'AzureDevOpsProvider',
+		path: 'azure-devops',
+		options: {
+			clientId: 'AZURE_DEVOPS_ID',
+			clientSecret: 'AZURE_DEVOPS_SECRET',
+			scope: 'AZURE_DEVOPS_SCOPE',
+		},
+	},
 	Battlenet: {
 		name: 'Battlenet',
 		importOptions: [
@@ -96,6 +130,23 @@ export const providers = {
 			clientId: 'BN_ID',
 			clientSecret: 'BN_SECRET',
 			issuer: 'BN_ISSUER',
+		},
+	},
+	BeyondIdentity: {
+		name: 'BeyondIdentity',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'BeyondIdentityProvider',
+				path: 'next-auth/providers/beyondidentity',
+			},
+		],
+		importName: 'BeyondIdentityProvider',
+		path: 'beyondidentity',
+		options: {
+			clientId: 'BEYOND_IDENTITY_ID',
+			clientSecret: 'BEYOND_IDENTITY_SECRET',
+			issuer: 'BEYOND_IDENTITY_ISSUER',
 		},
 	},
 	Box: {
@@ -167,6 +218,32 @@ export const providers = {
 		importName: 'CoinbaseProvider',
 		path: 'coinbase',
 		options: { clientId: 'COINBASE_ID', clientSecret: 'COINBASE_SECRET' },
+	},
+	Descope: {
+		name: 'Descope',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'DescopeProvider',
+				path: 'next-auth/providers/descope',
+			},
+		],
+		importName: 'DescopeProvider',
+		path: 'descope',
+		options: { clientId: 'DESCOPE_ID', clientSecret: 'DESCOPE_SECRET' },
+	},
+	Dribbble: {
+		name: 'Dribbble',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'DribbbleProvider',
+				path: 'next-auth/providers/dribbble',
+			},
+		],
+		importName: 'DribbbleProvider',
+		path: 'dribbble',
+		options: { clientId: 'DRIBBBLE_ID', clientSecret: 'DRIBBBLE_SECRET' },
 	},
 	Discord: {
 		name: 'Discord',
@@ -362,6 +439,23 @@ export const providers = {
 		path: 'hubspot',
 		options: { clientId: 'HUBSPOT_ID', clientSecret: 'HUBSPOT_SECRET' },
 	},
+	IdentityServer4: {
+		name: 'IdentityServer4',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'IdentityServer4Provider',
+				path: 'next-auth/providers/identity-server4',
+			},
+		],
+		importName: 'IdentityServer4Provider',
+		path: 'identity-server4',
+		options: {
+			clientId: 'IDENTITY_SERVER4_ID',
+			clientSecret: 'IDENTITY_SERVER4_SECRET',
+			issuer: 'IDENTITY_SERVER4_ISSUER',
+		},
+	},
 	Instagram: {
 		name: 'Instagram',
 		importOptions: [
@@ -453,6 +547,40 @@ export const providers = {
 		path: 'mailru',
 		options: { clientId: 'MAILRU_ID', clientSecret: 'MAILRU_SECRET' },
 	},
+	Mastodon: {
+		name: 'Mastodon',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'MastodonProvider',
+				path: 'next-auth/providers/mastodon',
+			},
+		],
+		importName: 'MastodonProvider',
+		path: 'mastodon',
+		options: {
+			clientId: 'MASTODON_ID',
+			clientSecret: 'MASTODON_SECRET',
+			issuer: 'MASTODON_ISSUER',
+		},
+	},
+	Mattermost: {
+		name: 'Mattermost',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'MattermostProvider',
+				path: 'next-auth/providers/mattermost',
+			},
+		],
+		importName: 'MattermostProvider',
+		path: 'mattermost',
+		options: {
+			clientId: 'MATTERMOST_ID',
+			clientSecret: 'MATTERMOST_SECRET',
+			issuer: 'MATTERMOST_ISSUER',
+		},
+	},
 	Medium: {
 		name: 'Medium',
 		importOptions: [
@@ -478,6 +606,23 @@ export const providers = {
 		importName: 'NaverProvider',
 		path: 'naver',
 		options: { clientId: 'NAVER_ID', clientSecret: 'NAVER_SECRET' },
+	},
+	Notion: {
+		name: 'Notion',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'NotionProvider',
+				path: 'next-auth/providers/notion',
+			},
+		],
+		importName: 'NotionProvider',
+		path: 'notion',
+		options: {
+			clientId: 'NOTION_ID',
+			clientSecret: 'NOTION_SECRET',
+			redirectUri: 'NOTION_REDIRECT_URI',
+		},
 	},
 	Netlify: {
 		name: 'Netlify',
@@ -673,6 +818,19 @@ export const providers = {
 		importName: 'StravaProvider',
 		path: 'strava',
 		options: { clientId: 'STRAVA_ID', clientSecret: 'STRAVA_SECRET' },
+	},
+	Tiktok: {
+		name: 'Tiktok',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'TiktokProvider',
+				path: 'next-auth/providers/tiktok',
+			},
+		],
+		importName: 'TiktokProvider',
+		path: 'tiktok',
+		options: { clientId: 'TIKTOK_ID', clientSecret: 'TIKTOK_SECRET' },
 	},
 	Todoist: {
 		name: 'Todoist',

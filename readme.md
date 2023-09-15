@@ -206,3 +206,9 @@ nextauth next-pages --GitHub --env --ts --adapter=prisma
 -   ☑️: "Broken Command",
 -   🎟️: "Bug and doesnt work",
 -   🎫: "Bug present, but works. Upgrade on the way.",
+
+## Upcoming Updates
+
+-   Support for `email` providers.
+-   Support for `OAuth` Providers.
+-   Support for `Credentials` Providers.
