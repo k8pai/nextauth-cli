@@ -1,446 +1,867 @@
 export const providers = {
 	Apple: {
 		name: 'Apple',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'AppleProvider',
+				path: 'next-auth/providers/apple',
+			},
+		],
 		importName: 'AppleProvider',
 		path: 'apple',
-		id: 'APPLE_ID',
-		secret: 'APPLE_SECRET',
+		options: { clientId: 'APPLE_ID', clientSecret: 'APPLE_SECRET' },
 	},
 	Atlassian: {
 		name: 'Atlassian',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'AtlassianProvider',
+				path: 'next-auth/providers/atlassian',
+			},
+		],
 		importName: 'AtlassianProvider',
 		path: 'atlassian',
-		id: 'ATLASSIAN_ID',
-		secret: 'ATLASSIAN_SECRET',
+		options: { clientId: 'ATLASSIAN_ID', clientSecret: 'ATLASSIAN_SECRET' },
 	},
 	Auth0: {
 		name: 'Auth0',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'Auth0Provider',
+				path: 'next-auth/providers/auth0',
+			},
+		],
 		importName: 'Auth0Provider',
 		path: 'auth0',
-		id: 'AUTH0_ID',
-		secret: 'AUTH0_SECRET',
-		issuer: 'AUTH0_ISSUER',
+		options: {
+			clientId: 'AUTH0_ID',
+			clientSecret: 'AUTH0_SECRET',
+			issuer: 'AUTH0_ISSUER',
+		},
 	},
 	Authentik: {
 		name: 'Authentik',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'AuthentikProvider',
+				path: 'next-auth/providers/authentik',
+			},
+		],
 		importName: 'AuthentikProvider',
 		path: 'authentik',
-		id: 'AUTHENTIK_ID',
-		secret: 'AUTHENTIK_SECRET',
+		options: { clientId: 'AUTHENTIK_ID', clientSecret: 'AUTHENTIK_SECRET' },
 	},
 	AzureAD: {
 		name: 'AzureAD',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'AzureADProvider',
+				path: 'next-auth/providers/azure-ad',
+			},
+		],
 		importName: 'AzureADProvider',
 		path: 'azure-ad',
-		id: 'AZUREAD_ID',
-		secret: 'AZUREAD_SECRET',
+		options: { clientId: 'AZUREAD_ID', clientSecret: 'AZUREAD_SECRET' },
 	},
 	AzureB2C: {
 		name: 'AzureB2C',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'AzureADB2CProvider',
+				path: 'next-auth/providers/azure-ad-b2c',
+			},
+		],
 		importName: 'AzureADB2CProvider',
 		path: 'azure-ad-b2c',
-		id: 'AZUREB2C_ID',
-		secret: 'AZUREB2C_SECRET',
+		options: { clientId: 'AZUREB2C_ID', clientSecret: 'AZUREB2C_SECRET' },
 	},
 	Battlenet: {
 		name: 'Battlenet',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'BattleNetProvider',
+				path: 'next-auth/providers/battlenet',
+			},
+		],
 		importName: 'BattleNetProvider',
 		path: 'battlenet',
-		id: 'BN_ID',
-		secret: 'BN_ISSUER',
+		options: {
+			clientId: 'BN_ID',
+			clientSecret: 'BN_SECRET',
+			issuer: 'BN_ISSUER',
+		},
 	},
 	Box: {
 		name: 'Box',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'BoxProvider',
+				path: 'next-auth/providers/box',
+			},
+		],
 		importName: 'BoxProvider',
 		path: 'box',
-		id: 'BOX_ID',
-		secret: 'BOX_SECRET',
+		options: { clientId: 'BOX_ID', clientSecret: 'BOX_SECRET' },
 	},
 	BoxyHQSAML: {
 		name: 'BoxyHQSAML',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'BoxyHQSAMLProvider',
+				path: 'next-auth/providers/boxyhq-saml',
+			},
+		],
 		importName: 'BoxyHQSAMLProvider',
 		path: 'boxyhq-saml',
-		id: 'BOXYHQ_ID',
-		secret: 'BOXYHQ_SECRET',
+		options: {
+			clientId: 'BOXYHQ_ID',
+			clientSecret: 'BOXYHQ_SECRET',
+			issuer: 'BOXYHQ_ISSUER',
+		},
 		issuer: 'BOXYHQ_ISSUER',
 	},
 	Bungie: {
 		name: 'Bungie',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'BungieProvider',
+				path: 'next-auth/providers/bungie',
+			},
+		],
 		importName: 'BungieProvider',
 		path: 'bungie',
-		id: 'BUNGIE_ID',
-		secret: 'BUNGIE_SECRET',
+		options: { clientId: 'BUNGIE_ID', clientSecret: 'BUNGIE_SECRET' },
 	},
 	Cognito: {
 		name: 'Cognito',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'CognitoProvider',
+				path: 'next-auth/providers/cognito',
+			},
+		],
 		importName: 'CognitoProvider',
 		path: 'cognito',
-		id: 'COGNITO_ID',
-		secret: 'COGNITO_SECRET',
+		options: { clientId: 'COGNITO_ID', clientSecret: 'COGNITO_SECRET' },
 	},
 	Coinbase: {
 		name: 'Coinbase',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'CoinbaseProvider',
+				path: 'next-auth/providers/coinbase',
+			},
+		],
 		importName: 'CoinbaseProvider',
 		path: 'coinbase',
-		id: 'COINBASE_ID',
-		secret: 'COINBASE_SECRET',
+		options: { clientId: 'COINBASE_ID', clientSecret: 'COINBASE_SECRET' },
 	},
 	Discord: {
 		name: 'Discord',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'DiscordProvider',
+				path: 'next-auth/providers/discord',
+			},
+		],
 		importName: 'DiscordProvider',
 		path: 'discord',
-		id: 'DISCORD_ID',
-		secret: 'DISCORD_SECRET',
+		options: { clientId: 'DISCORD_ID', clientSecret: 'DISCORD_SECRET' },
 	},
 	Dropbox: {
 		name: 'Dropbox',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'DropboxProvider',
+				path: 'next-auth/providers/dropbox',
+			},
+		],
 		importName: 'DropboxProvider',
 		path: 'dropbox',
-		id: 'DROPBOX_ID',
-		secret: 'DROPBOX_SECRET',
+		options: { clientId: 'DROPBOX_ID', clientSecret: 'DROPBOX_SECRET' },
 	},
 	DuendeIDS6: {
 		name: 'DuendeIDS6',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'DuendeIDS6Provider',
+				path: 'next-auth/providers/duende-identity-server6',
+			},
+		],
 		importName: 'DuendeIDS6Provider',
 		path: 'duende-identity-server6',
-		id: 'DUENDEIDS6_ID',
-		secret: 'DUENDEIDS6_SECRET',
+		options: {
+			clientId: 'DUENDEIDS6_ID',
+			clientSecret: 'DUENDEIDS6_SECRET',
+		},
 	},
 	Eveonline: {
 		name: 'Eveonline',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'EVEOnlineProvider',
+				path: 'next-auth/providers/eveonline',
+			},
+		],
 		importName: 'EVEOnlineProvider',
 		path: 'eveonline',
-		id: 'EVEONLINE_ID',
-		secret: 'EVEONLINE_SECRET',
+		options: { clientId: 'EVEONLINE_ID', clientSecret: 'EVEONLINE_SECRET' },
 	},
 	Facebook: {
 		name: 'Facebook',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'FacebookProvider',
+				path: 'next-auth/providers/facebook',
+			},
+		],
 		importName: 'FacebookProvider',
 		path: 'facebook',
-		id: 'FACEBOOK_ID',
-		secret: 'FACEBOOK_SECRET',
+		options: { clientId: 'FACEBOOK_ID', clientSecret: 'FACEBOOK_SECRET' },
 	},
 	Faceit: {
 		name: 'Faceit',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'FaceItProvider',
+				path: 'next-auth/providers/faceit',
+			},
+		],
 		importName: 'FaceItProvider',
 		path: 'faceit',
-		id: 'FACEIT_ID',
-		secret: 'FACEIT_SECRET',
+		options: { clientId: 'FACEIT_ID', clientSecret: 'FACEIT_SECRET' },
 	},
 	FortyTwoSchool: {
 		name: 'FortyTwoSchool',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'FortyTwoProvider',
+				path: 'next-auth/providers/42-school',
+			},
+		],
 		importName: 'FortyTwoProvider',
 		path: '42-school',
-		id: 'FORTYTWOSCHOOL_ID',
-		secret: 'FORTYTWOSCHOOL_SECRET',
+		options: {
+			clientId: 'FORTYTWOSCHOOL_ID',
+			clientSecret: 'FORTYTWOSCHOOL_SECRET',
+		},
 	},
 	Foursquare: {
 		name: 'Foursquare',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'FourSquareProvider',
+				path: 'next-auth/providers/foursquare',
+			},
+		],
 		importName: 'FourSquareProvider',
 		path: 'foursquare',
-		id: 'FOURSQUARE_ID',
-		secret: 'FOURSQUARE_SECRET',
+		options: {
+			clientId: 'FOURSQUARE_ID',
+			clientSecret: 'FOURSQUARE_SECRET',
+		},
 	},
 	Freshbooks: {
 		name: 'Freshbooks',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'FreshbooksProvider',
+				path: 'next-auth/providers/freshbooks',
+			},
+		],
 		importName: 'FreshbooksProvider',
 		path: 'freshbooks',
-		id: 'FRESHBOOKS_ID',
-		secret: 'FRESHBOOKS_SECRET',
+		options: {
+			clientId: 'FRESHBOOKS_ID',
+			clientSecret: 'FRESHBOOKS_SECRET',
+		},
 	},
 	Fusionauth: {
 		name: 'Fusionauth',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'FusionAuthProvider',
+				path: 'next-auth/providers/fusionauth',
+			},
+		],
 		importName: 'FusionAuthProvider',
 		path: 'fusionauth',
-		id: 'FUSIONID',
-		secret: 'FUSIONSECRET',
+		options: { clientId: 'FUSIONID', clientSecret: 'FUSIONSECRET' },
 	},
 	GitHub: {
 		name: 'GitHub',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'GitHubProvider',
+				path: 'next-auth/providers/github',
+			},
+		],
 		importName: 'GitHubProvider',
 		path: 'github',
-		id: 'GITHUB_ID',
-		secret: 'GITHUB_SECRET',
+		options: { clientId: 'GITHUB_ID', clientSecret: 'GITHUB_SECRET' },
 	},
 	Gitlab: {
 		name: 'Gitlab',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'GitlabProvider',
+				path: 'next-auth/providers/gitlab',
+			},
+		],
 		importName: 'GitlabProvider',
-		path: 'gitlb',
-		id: 'GITLAB_ID',
-		secret: 'GITLAB_SECRET',
+		path: 'gitlab',
+		options: { clientId: 'GITLAB_ID', clientSecret: 'GITLAB_SECRET' },
 	},
 	Google: {
 		name: 'Google',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'GoogleProvider',
+				path: 'next-auth/providers/google',
+			},
+		],
 		importName: 'GoogleProvider',
 		path: 'google',
-		id: 'GOOGLE_ID',
-		secret: 'GOOGLE_SECRET',
+		options: { clientId: 'GOOGLE_ID', clientSecret: 'GOOGLE_SECRET' },
 	},
 	Hubspot: {
 		name: 'Hubspot',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'HubspotProvider',
+				path: 'next-auth/providers/hubspot',
+			},
+		],
 		importName: 'HubspotProvider',
 		path: 'hubspot',
-		id: 'HUBSPOT_ID',
-		secret: 'HUBSPOT_SECRET',
+		options: { clientId: 'HUBSPOT_ID', clientSecret: 'HUBSPOT_SECRET' },
 	},
 	Instagram: {
 		name: 'Instagram',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'InstagramProvider',
+				path: 'next-auth/providers/instagram',
+			},
+		],
 		importName: 'InstagramProvider',
 		path: 'instagram',
-		id: 'INSTAGRAM_ID',
-		secret: 'INSTAGRAM_SECRET',
+		options: { clientId: 'INSTAGRAM_ID', clientSecret: 'INSTAGRAM_SECRET' },
 	},
 	Kakao: {
 		name: 'Kakao',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'KakaoProvider',
+				path: 'next-auth/providers/kakao',
+			},
+		],
 		importName: 'KakaoProvider',
 		path: 'kakao',
-		id: 'KAKAO_ID',
-		secret: 'KAKAO_SECRET',
+		options: { clientId: 'KAKAO_ID', clientSecret: 'KAKAO_SECRET' },
 	},
 	Keycloak: {
 		name: 'Keycloak',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'KeycloakProvider',
+				path: 'next-auth/providers/keycloak',
+			},
+		],
 		importName: 'KeycloakProvider',
 		path: 'keycloak',
-		id: 'KEYCLOAK_ID',
-		secret: 'KEYCLOAK_SECRET',
+		options: { clientId: 'KEYCLOAK_ID', clientSecret: 'KEYCLOAK_SECRET' },
 	},
 	Line: {
 		name: 'Line',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'LineProvider',
+				path: 'next-auth/providers/line',
+			},
+		],
 		importName: 'LineProvider',
 		path: 'line',
-		id: 'LINE_ID',
-		secret: 'LINE_SECRET',
+		options: { clientId: 'LINE_ID', clientSecret: 'LINE_SECRET' },
 	},
 	LinkedIn: {
 		name: 'LinkedIn',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'LinkedInProvider',
+				path: 'next-auth/providers/linkedin',
+			},
+		],
 		importName: 'LinkedInProvider',
 		path: 'linkedin',
-		id: 'LINKEDIN_ID',
-		secret: 'LINKEDIN_SECRET',
+		options: { clientId: 'LINKEDIN_ID', clientSecret: 'LINKEDIN_SECRET' },
 	},
 	Mailchimp: {
 		name: 'Mailchimp',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'MailchimpProvider',
+				path: 'next-auth/providers/mailchimp',
+			},
+		],
 		importName: 'MailchimpProvider',
 		path: 'mailchimp',
-		id: 'MAILCHIMP_ID',
-		secret: 'MAILCHIMP_SECRET',
+		options: { clientId: 'MAILCHIMP_ID', clientSecret: 'MAILCHIMP_SECRET' },
 	},
 	Mailru: {
 		name: 'Mailru',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'MailRuProvider',
+				path: 'next-auth/providers/mailru',
+			},
+		],
 		importName: 'MailRuProvider',
 		path: 'mailru',
-		id: 'MAILRU_ID',
-		secret: 'MAILRU_SECRET',
+		options: { clientId: 'MAILRU_ID', clientSecret: 'MAILRU_SECRET' },
 	},
 	Medium: {
 		name: 'Medium',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'MediumProvider',
+				path: 'next-auth/providers/medium',
+			},
+		],
 		importName: 'MediumProvider',
 		path: 'medium',
-		id: 'MEDIUM_ID',
-		secret: 'MEDIUM_SECRET',
+		options: { clientId: 'MEDIUM_ID', clientSecret: 'MEDIUM_SECRET' },
 	},
 	Naver: {
 		name: 'Naver',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'NaverProvider',
+				path: 'next-auth/providers/naver',
+			},
+		],
 		importName: 'NaverProvider',
 		path: 'naver',
-		id: 'NAVER_ID',
-		secret: 'NAVER_SECRET',
+		options: { clientId: 'NAVER_ID', clientSecret: 'NAVER_SECRET' },
 	},
 	Netlify: {
 		name: 'Netlify',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'NetlifyProvider',
+				path: 'next-auth/providers/netlify',
+			},
+		],
 		importName: 'NetlifyProvider',
 		path: 'netlify',
-		id: 'NETLIFY_ID',
-		secret: 'NETLIFY_SECRET',
+		options: { clientId: 'NETLIFY_ID', clientSecret: 'NETLIFY_SECRET' },
 	},
 	Okta: {
 		name: 'Okta',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'OktaProvider',
+				path: 'next-auth/providers/okta',
+			},
+		],
 		importName: 'OktaProvider',
 		path: 'okta',
-		id: 'OKTA_ID',
-		secret: 'OKTA_SECRET',
+		options: { clientId: 'OKTA_ID', clientSecret: 'OKTA_SECRET' },
 	},
 	Onelogin: {
 		name: 'Onelogin',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'OneLoginProvider',
+				path: 'next-auth/providers/onelogin',
+			},
+		],
 		importName: 'OneLoginProvider',
 		path: 'onelogin',
-		id: 'ONELOGIN_ID',
-		secret: 'ONELOGIN_SECRET',
+		options: { clientId: 'ONELOGIN_ID', clientSecret: 'ONELOGIN_SECRET' },
 	},
 	Osso: {
 		name: 'Osso',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'OssoProvider',
+				path: 'next-auth/providers/osso',
+			},
+		],
 		importName: 'OssoProvider',
 		path: 'osso',
-		id: 'OSSO_ID',
-		secret: 'OSSO_SECRET',
+		options: {
+			clientId: 'OSSO_ID',
+			clientSecret: 'OSSO_SECRET',
+			issuer: 'OSSO_ISSUER',
+		},
 		issuer: 'OSSO_ISSUER',
 	},
 	Osu: {
 		name: 'Osu',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'OsuProvider',
+				path: 'next-auth/providers/osu',
+			},
+		],
 		importName: 'OsuProvider',
 		path: 'osu',
-		id: 'OSU_ID',
-		secret: 'OSU_SECRET',
+		options: { clientId: 'OSU_ID', clientSecret: 'OSU_SECRET' },
 	},
 	Passage: {
 		name: 'Passage',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'PassageProvider',
+				path: 'next-auth/providers/passage',
+			},
+		],
 		importName: 'PassageProvider',
 		path: 'passage',
-		id: 'PASSAGE_ID',
-		secret: 'PASSAGE_SECRET',
+		options: {
+			clientId: 'PASSAGE_ID',
+			clientSecret: 'PASSAGE_SECRET',
+			issuer: 'PASSAGE_ISSUER',
+		},
 		issuer: 'PASSAGE_ISSUER',
 	},
 	Patreon: {
 		name: 'Patreon',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'PatreonProvider',
+				path: 'next-auth/providers/patreon',
+			},
+		],
 		importName: 'PatreonProvider',
 		path: 'patreon',
-		id: 'PATREON_ID',
-		secret: 'PATREON_SECRET',
+		options: { clientId: 'PATREON_ID', clientSecret: 'PATREON_SECRET' },
 	},
 	Pinterest: {
 		name: 'Pinterest',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'PinterestProvider',
+				path: 'next-auth/providers/pinterest',
+			},
+		],
 		importName: 'PinterestProvider',
 		path: 'pinterest',
-		id: 'PINTEREST_ID',
-		secret: 'PINTEREST_SECRET',
+		options: { clientId: 'PINTEREST_ID', clientSecret: 'PINTEREST_SECRET' },
 	},
 	Pipedrive: {
 		name: 'Pipedrive',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'PipedriveProvider',
+				path: 'next-auth/providers/pipedrive',
+			},
+		],
 		importName: 'PipedriveProvider',
 		path: 'pipedrive',
-		id: 'PIPEDRIVE_ID',
-		secret: 'PIPEDRIVE_SECRET',
+		options: { clientId: 'PIPEDRIVE_ID', clientSecret: 'PIPEDRIVE_SECRET' },
 	},
 	Reddit: {
 		name: 'Reddit',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'RedditProvider',
+				path: 'next-auth/providers/reddit',
+			},
+		],
 		importName: 'RedditProvider',
 		path: 'reddit',
-		id: 'REDDIT_ID',
-		secret: 'REDDIT_SECRET',
+		options: { clientId: 'REDDIT_ID', clientSecret: 'REDDIT_SECRET' },
 	},
 	Salesforce: {
 		name: 'Salesforce',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'SalesforceProvider',
+				path: 'next-auth/providers/salesforce',
+			},
+		],
 		importName: 'SalesforceProvider',
 		path: 'salesforce',
-		id: 'SALESFORCE_ID',
-		secret: 'SALESFORCE_SECRET',
+		options: {
+			clientId: 'SALESFORCE_ID',
+			clientSecret: 'SALESFORCE_SECRET',
+		},
 	},
 	Slack: {
 		name: 'Slack',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'SlackProvider',
+				path: 'next-auth/providers/slack',
+			},
+		],
 		importName: 'SlackProvider',
 		path: 'slack',
-		id: 'SLACK_ID',
-		secret: 'SLACK_SECRET',
+		options: { clientId: 'SLACK_ID', clientSecret: 'SLACK_SECRET' },
 	},
 	Spotify: {
 		name: 'Spotify',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'SpotifyProvider',
+				path: 'next-auth/providers/spotify',
+			},
+		],
 		importName: 'SpotifyProvider',
 		path: 'spotify',
-		id: 'SPOTIFY_ID',
-		secret: 'SPOTIFY_SECRET',
+		options: { clientId: 'SPOTIFY_ID', clientSecret: 'SPOTIFY_SECRET' },
 	},
 	Strava: {
 		name: 'Strava',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'StravaProvider',
+				path: 'next-auth/providers/strava',
+			},
+		],
 		importName: 'StravaProvider',
 		path: 'strava',
-		id: 'STRAVA_ID',
-		secret: 'STRAVA_SECRET',
+		options: { clientId: 'STRAVA_ID', clientSecret: 'STRAVA_SECRET' },
 	},
 	Todoist: {
 		name: 'Todoist',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'TodoistProvider',
+				path: 'next-auth/providers/todoist',
+			},
+		],
 		importName: 'TodoistProvider',
 		path: 'todoist',
-		id: 'TODOIST_ID',
-		secret: 'TODOIST_SECRET',
+		options: { clientId: 'TODOIST_ID', clientSecret: 'TODOIST_SECRET' },
 	},
 	Trakt: {
 		name: 'Trakt',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'TraktProvider',
+				path: 'next-auth/providers/trakt',
+			},
+		],
 		importName: 'TraktProvider',
 		path: 'trakt',
-		id: 'TRAKT_ID',
-		secret: 'TRAKT_SECRET',
+		options: { clientId: 'TRAKT_ID', clientSecret: 'TRAKT_SECRET' },
 	},
 	Twitch: {
 		name: 'Twitch',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'TwitchProvider',
+				path: 'next-auth/providers/twitch',
+			},
+		],
 		importName: 'TwitchProvider',
 		path: 'twitch',
-		id: 'TWITCH_ID',
-		secret: 'TWITCH_SECRET',
+		options: { clientId: 'TWITCH_ID', clientSecret: 'TWITCH_SECRET' },
 	},
 	Twitter: {
 		name: 'Twitter',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'TwitterProvider',
+				path: 'next-auth/providers/twitter',
+			},
+		],
 		importName: 'TwitterProvider',
 		path: 'twitter',
-		id: 'TWITTER_ID',
-		secret: 'TWITTER_SECRET',
+		options: { clientId: 'TWITTER_ID', clientSecret: 'TWITTER_SECRET' },
 		version: '2.0',
 	},
 	UnitedEffects: {
 		name: 'UnitedEffects',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'UnitedEffectsProvider',
+				path: 'next-auth/providers/united-effects',
+			},
+		],
 		importName: 'UnitedEffectsProvider',
 		path: 'united-effects',
-		id: 'UE_ID',
-		secret: 'UE_SECRET',
-		issuer: 'UE_ISSUER',
+		options: {
+			clientId: 'UE_ID',
+			clientSecret: 'UE_SECRET',
+			issuer: 'UE_ISSUER',
+		},
 	},
 	Vk: {
 		name: 'Vk',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'VkProvider',
+				path: 'next-auth/providers/vk',
+			},
+		],
 		importName: 'VkProvider',
 		path: 'vk',
-		id: 'VK_ID',
-		secret: 'VK_SECRET',
+		options: { clientId: 'VK_ID', clientSecret: 'VK_SECRET' },
 	},
 	Wikimedia: {
 		name: 'Wikimedia',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'WikimediaProvider',
+				path: 'next-auth/providers/wikimedia',
+			},
+		],
 		importName: 'WikimediaProvider',
 		path: 'wikimedia',
-		id: 'WIKIMEDIA_ID',
-		secret: 'WIKIMEDIA_SECRET',
+		options: { clientId: 'WIKIMEDIA_ID', clientSecret: 'WIKIMEDIA_SECRET' },
 	},
 	Wordpress: {
 		name: 'Wordpress',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'WordpressProvider',
+				path: 'next-auth/providers/wordpress',
+			},
+		],
 		importName: 'WordpressProvider',
 		path: 'wordpress',
-		id: 'WORDPRESS_ID',
-		secret: 'WORDPRESS_SECRET',
+		options: { clientId: 'WORDPRESS_ID', clientSecret: 'WORDPRESS_SECRET' },
 	},
 	WorkOS: {
 		name: 'WorkOS',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'WorkOSProvider',
+				path: 'next-auth/providers/workos',
+			},
+		],
 		importName: 'WorkOSProvider',
 		path: 'workos',
-		id: 'WORKOS_ID',
-		secret: 'WORKOS_SECRET',
+		options: { clientId: 'WORKOS_ID', clientSecret: 'WORKOS_SECRET' },
 	},
 	Yandex: {
 		name: 'Yandex',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'YandexProvider',
+				path: 'next-auth/providers/yandex',
+			},
+		],
 		importName: 'YandexProvider',
 		path: 'yandex',
-		id: 'YANDEX_ID',
-		secret: 'YANDEX_SECRET',
+		options: { clientId: 'YANDEX_ID', clientSecret: 'YANDEX_SECRET' },
 	},
 	Zitadel: {
 		name: 'Zitadel',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'ZitadelProvider',
+				path: 'next-auth/providers/zitadel',
+			},
+		],
 		importName: 'ZitadelProvider',
 		path: 'zitadel',
-		id: 'ZITADEL_ID',
-		secret: 'ZITADEL_SECRET',
+		options: { clientId: 'ZITADEL_ID', clientSecret: 'ZITADEL_SECRET' },
 	},
 	Zoho: {
 		name: 'Zoho',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'ZohoProvider',
+				path: 'next-auth/providers/zoho',
+			},
+		],
 		importName: 'ZohoProvider',
 		path: 'zoho',
-		id: 'ZOHO_ID',
-		secret: 'ZOHO_SECRET',
+		options: { clientId: 'ZOHO_ID', clientSecret: 'ZOHO_SECRET' },
 	},
 	Zoom: {
 		name: 'Zoom',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'ZoomProvider',
+				path: 'next-auth/providers/zoom',
+			},
+		],
 		importName: 'ZoomProvider',
 		path: 'zoom',
-		id: 'ZOOM_ID',
-		secret: 'ZOOM_SECRET',
+		options: { clientId: 'ZOOM_ID', clientSecret: 'ZOOM_SECRET' },
 	},
 };
 
 export const ProviderKeys = (key: keyof typeof providers) => {
 	return providers[key];
 };
+
+export const providerChoices = Object.entries(providers).map(
+	([key, value], _) => {
+		const { name: title, importName: description } = value;
+		return {
+			title: title,
+			description: description,
+			value: key,
+			disabled: false,
+		};
+	},
+);
