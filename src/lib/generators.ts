@@ -2,7 +2,6 @@ import fs from 'fs';
 import path from 'path';
 import {
 	GenerateAdapterConfigurations,
-	// checkSimilarAdapter,
 	generateBaseInitialTemplate,
 } from './helpers';
 import { ExtentionTypes, OptionsType } from '../typings';
@@ -14,7 +13,7 @@ export const NextGenerator = async (
 	target: 'api/auth/[...nextauth]' | 'api/auth',
 	file: '[...nextauth]' | 'route',
 ) => {
-	const { ts, adapter, db, ...config } = options;
+	const { ts, adapter, db, router, ...config } = options;
 
 	let baseDirectory = path.join(process.cwd(), dir);
 	let targetDirectory = path.join(baseDirectory, target);
@@ -35,7 +34,7 @@ export const NextGenerator = async (
 
 		fs.writeFileSync(
 			filePath,
-			generateBaseInitialTemplate(config, ts, adapter),
+			generateBaseInitialTemplate(config, ts, adapter, router),
 			'utf-8',
 		);
 
