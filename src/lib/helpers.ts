@@ -2,7 +2,7 @@ import fs from 'fs';
 import { Adapters } from './Adapters';
 import { GeneratePrismaAdapter } from './Generators/prisma';
 import { GenerateMongodbAdapter } from './Generators/mongodb';
-import { ProviderKeys } from './Providers';
+import { ProviderKeys, providers } from './Providers';
 import { GenerateDrizzleAdapter } from './Generators/drizzle';
 import {
 	DbTypes,
@@ -10,6 +10,8 @@ import {
 	OptionsType,
 	AdapterType,
 	ExtentionTypes,
+	FlagOptions,
+	ProviderOptions,
 } from '../typings';
 import { GenerateDynamodbAdapter } from './Generators/dynamodb';
 import { GenerateFaunaAdapter } from './Generators/fauna';
@@ -23,36 +25,75 @@ import { GenerateSupabaseAdapter } from './Generators/supabase';
 import { GenerateSequelizeAdapter } from './Generators/sequelize';
 import { GenerateDgraphAdapter } from './Generators/dgraph';
 
+export const getProviderImports = (
+	options: OptionsType,
+	ts?: boolean,
+	adapter?: AdapterType,
+) => {
+	let imports = `import NextAuth from 'next-auth';`;
+	imports += ts ? `\nimport type { NextAuthOptions } from "next-auth"\n` : '';
+
+	const { env, ...config } = options;
+
+	console.log('keys in configs from getProviderImports => ', config);
+
+	for (let val in config) {
+		console.log('val = ', val);
+		const { importOptions } = providers[val as ProviderOptions];
+		for (let { defaultImport, name, path } of importOptions) {
+			imports += `import ${
+				defaultImport ? `${name}` : `{ ${name} }`
+			} from '${path}';\n`;
+		}
+	}
+
+	if (adapter && Adapters[adapter]) {
+		imports += generateAdapterImport(adapter);
+	}
+
+	return imports;
+};
+
 export const getProviders = (
 	options: Omit<OptionsType, 'ts'>,
 	ts?: boolean,
 	adapter?: AdapterType,
 ) => {
+	let params = '';
 	let providers = '',
 		envVariables = '';
 	const { env, ...config } = options;
 
+	console.log('keys in configs from getProviders => ', config);
+
 	for (const [key, value] of Object.entries(config)) {
+		params = '';
 		if (key !== 'env' && value) {
-			const { importName, name, id, secret } = ProviderKeys(
+			const { importName, name, options } = ProviderKeys(
 				key as keyof ProviderType,
 			);
-			providers += `\n\t\t${importName}({
-			clientId: process.env.${id}${ts ? ' as string' : ''},
-			clientSecret: process.env.${secret}${ts ? ' as string' : ''},
-		}),`;
+			envVariables += `# Environmental variables for ${name} Provider.\n`;
+			params += '\n';
+			Object.entries(options).forEach(([key, value], _) => {
+				params += `\t\t\t${key}: process.env.${value}${
+					ts ? ' as string' : ''
+				},\n`;
+				envVariables += `${value}=\n`;
+			});
 
-			envVariables += `# Environmental variables for ${name} Provider.\n${id}=\n${secret}=\n`;
+			params += '\t\t';
+			envVariables += `\n`;
+			providers += `\n\t\t${importName}({${params}}),`;
 		}
 	}
 
 	if (adapter && Adapters[adapter] && Adapters[adapter].secrets) {
 		let secrets = Adapters[adapter]?.secrets;
 		if (secrets.length > 0) {
-			envVariables += `\n# Environmental variables for ${adapter} Adapter.`;
+			envVariables += `# Environmental variables for ${adapter} Adapter.\n`;
 		}
 		for (let secret of secrets) {
-			envVariables += `\n${secret}=`;
+			envVariables += `${secret}=\n`;
 		}
 	}
 
@@ -69,42 +110,16 @@ export const getProviders = (
 	return providers;
 };
 
-export const getProviderImports = (
-	options: OptionsType,
-	ts?: boolean,
-	adapter?: AdapterType,
-) => {
-	let imports = ts
-		? `import type { NextAuthOptions } from "next-auth"\n`
-		: '';
-
-	const { ...config } = options;
-
-	for (const [key, value] of Object.entries(config)) {
-		if (key !== 'env' && value) {
-			const { importName, path } = ProviderKeys(
-				key as keyof ProviderType,
-			);
-			imports += `import ${importName} from 'next-auth/providers/${path}';\n`;
-		}
-	}
-
-	if (adapter && Adapters[adapter]) {
-		imports += generateAdapterImport(adapter);
-	}
-
-	return imports;
-};
-
 export const generateBaseInitialTemplate = (
 	options: Omit<OptionsType, 'ts'>,
 	ts?: boolean,
 	adapter?: AdapterType,
+	router?: 'app' | 'pages',
 ) => {
 	const { comment, export: exp } = getTsAdditions(ts);
 
-	return `import NextAuth from 'next-auth';
-${getProviderImports(options, ts, adapter)}
+	return `${getProviderImports(options, ts, adapter)}
+
 export const authOptions${ts ? ': NextAuthOptions' : ''} = {
 	// Configure one or more authentication providers${comment}
 	providers: [${getProviders(options, ts, adapter)}
@@ -116,43 +131,15 @@ ${exp}`;
 };
 
 const generateAdapterImport = (adapter: AdapterType) => {
-	let { importName, path } = Adapters[adapter];
-	let adapterImports = `import { ${importName} } from "@auth/${path}";`;
+	let { importOptions } = Adapters[adapter];
+	let result = '';
 
-	switch (adapter) {
-		case 'dgraph':
-			return `${adapterImports}\nimport { config } from "@lib/config";\n`;
-		case 'drizzle':
-			return `${adapterImports}\nimport { db } from "@lib/schema";\n`;
-		case 'dynamodb':
-			return `${adapterImports}\nimport { client } from "@lib/dynamodb";\n`;
-		case 'fauna':
-			return `${adapterImports}\nimport { client } from "@lib/fauna";\n`;
-		case 'firebase':
-			return `${adapterImports}\nimport { firestore } from "@lib/firestore";\n`;
-		case 'kysely':
-			return `${adapterImports}\nimport { db } from "@lib/db";\n`;
-		case 'mikroOrm':
-			return `${adapterImports}\nimport { config } from "@lib/config";\n`;
-		case 'mongodb':
-			return `${adapterImports}\nimport clientPromise from "@lib/mongodb"\n`;
-		case 'neo4j':
-			return `${adapterImports}\nimport neo4jSession from "@lib/config";\n`;
-		case 'pouchdb':
-			return;
-		case 'prisma':
-			return `${adapterImports}\nimport prisma from "@lib/prisma";\n`;
-		case 'sequalize':
-			return `${adapterImports}\nimport sequelize from "@lib/config";\n`;
-		case 'supabase':
-			return `${adapterImports}\nimport { config } from "@lib/config";\n`;
-		case 'typeorm':
-			return `${adapterImports}\n`;
-		case 'upstashRedis':
-			return `${adapterImports}\nimport redis from "@lib/redis";\n`;
-		case 'xata':
-			return `${adapterImports}\nimport { XataClient } from "@lib/xata";\n`;
+	for (let { defaultImport, name, path } of importOptions) {
+		result += `import ${
+			defaultImport ? `${name}` : `{ ${name} }`
+		} from '${path}';\n`;
 	}
+	return result;
 };
 
 const generateAdapter = (customAdapter: AdapterType) => {
@@ -162,19 +149,15 @@ const generateAdapter = (customAdapter: AdapterType) => {
 	return `\n\tadapter: ${adapter}(${params})`;
 };
 
-export function hasNonTsEnvKeys(obj: OptionsType) {
+export function hasProvider(obj: OptionsType, keys: FlagOptions[]) {
 	for (let key in obj) {
-		if (
-			obj.hasOwnProperty(key) &&
-			key !== 'ts' &&
-			key !== 'env' &&
-			key !== 'adapter' &&
-			key !== 'db'
-		) {
-			return true;
+		console.log(`Processing key => ${key}`);
+		if (obj.hasOwnProperty(key) && !keys.includes(key as FlagOptions)) {
+			console.log(`Key ${key} is not included in the 'keys' array.`);
+			return false;
 		}
 	}
-	return false;
+	return true;
 }
 
 const getTsAdditions = (ts?: boolean) => {
@@ -253,67 +236,3 @@ export const CreateFolderAndWrite = (
 
 	fs.writeFileSync(fileName, content, 'utf-8');
 };
-
-// const levenshteinDistance = (a: string, b: string): number => {
-// 	const m = a.length;
-// 	const n = b.length;
-// 	const dp = Array.from(Array(m + 1), () => Array(n + 1).fill(0));
-
-// 	for (let i = 0; i <= m; i++) {
-// 		dp[i][0] = i;
-// 	}
-
-// 	for (let j = 0; j <= n; j++) {
-// 		dp[0][j] = j;
-// 	}
-
-// 	for (let i = 1; i <= m; i++) {
-// 		for (let j = 1; j <= n; j++) {
-// 			const cost = a[i - 1] === b[j - 1] ? 0 : 1;
-// 			dp[i][j] = Math.min(
-// 				dp[i - 1][j] + 1,
-// 				dp[i][j - 1] + 1,
-// 				dp[i - 1][j - 1] + cost,
-// 			);
-// 		}
-// 	}
-
-// 	return dp[m][n];
-// };
-
-// export const checkSimilarAdapter = (mistypedValue: string): AdapterType => {
-// 	const availableAdapters: Array<AdapterType> = [
-// 		'dgraph',
-// 		'drizzle',
-// 		'dynamodb',
-// 		'fauna',
-// 		'firebase',
-// 		'kysely',
-// 		'mongodb',
-// 		'neo4j',
-// 		'pouchdb',
-// 		'prisma',
-// 		'supabase',
-// 		'typeorm',
-// 		'xata',
-// 		'mikroOrm',
-// 		'sequalize',
-// 		'upstashRedis',
-// 	];
-
-// 	let closestAdapter: AdapterType = availableAdapters[0] ?? 'dgraph';
-// 	let minDistance = levenshteinDistance(mistypedValue, availableAdapters[0]);
-
-// 	for (let i = 1; i < availableAdapters.length; i++) {
-// 		const distance = levenshteinDistance(
-// 			mistypedValue,
-// 			availableAdapters[i],
-// 		);
-// 		if (distance < minDistance) {
-// 			minDistance = distance;
-// 			closestAdapter = availableAdapters[i];
-// 		}
-// 	}
-
-// 	return closestAdapter;
-// };
