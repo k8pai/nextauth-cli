@@ -1,6 +1,6 @@
 {
 	"name": "nextauth-cli",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"description": "A nextauth cli to setup a basic application Setup running",
 	"exports": "./dist/index.js",
 	"bin": {
