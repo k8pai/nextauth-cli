@@ -129,7 +129,10 @@ export const providers = {
 		options: {
 			clientId: 'BN_ID',
 			clientSecret: 'BN_SECRET',
-			issuer: 'BN_ISSUER',
+			issuer: {
+				name: 'BN_ISSUER',
+				type: '"https://www.battlenet.com.cn/oauth" | "https://us.battle.net/oauth" | "https://eu.battle.net/oauth" | "https://kr.battle.net/oauth" | "https://tw.battle.net/oauth"',
+			},
 		},
 	},
 	BeyondIdentity: {
