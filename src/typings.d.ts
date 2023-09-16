@@ -13,14 +13,23 @@ export type ProviderType = {
 	[key in keyof typeof providers]?: boolean;
 };
 export type InitFlags = {
+	db?: DbTypes;
 	ts?: boolean;
 	env?: boolean;
+	router?: Routers;
 	adapter?: AdapterType;
-	router?: 'app' | 'pages';
-	db?: DbTypes;
+	provider?: ProviderOptions;
 };
 
-export type FlagOptions = 'ts' | 'env' | 'adapter' | 'router' | 'db';
+export type Routers = 'app' | 'pages';
+
+export type FlagOptions =
+	| 'db'
+	| 'ts'
+	| 'env'
+	| 'router'
+	| 'adapter'
+	| 'provider';
 
 export type OptionsType = ProviderType & InitFlags;
 
