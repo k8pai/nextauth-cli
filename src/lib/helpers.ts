@@ -1,11 +1,22 @@
 import fs from 'fs';
-import { red, bold } from 'picocolors';
-import { createSpinner } from 'nanospinner';
+import path from 'path';
 import { Adapters } from './Adapters';
-import { GeneratePrismaAdapter } from './Generators/prisma';
-import { GenerateMongodbAdapter } from './Generators/mongodb';
+import { bold } from 'picocolors';
+import { createSpinner } from 'nanospinner';
 import { ProviderKeys, providers } from './Providers';
+import { GenerateNeo4jAdapter } from './Generators/neo4j';
+import { GenerateFaunaAdapter } from './Generators/fauna';
+import { GeneratePrismaAdapter } from './Generators/prisma';
+import { GenerateKyselyAdapter } from './Generators/kysely';
+import { GenerateDgraphAdapter } from './Generators/dgraph';
+import { GenerateMongodbAdapter } from './Generators/mongodb';
 import { GenerateDrizzleAdapter } from './Generators/drizzle';
+import { GenerateSupabaseAdapter } from './Generators/supabase';
+import { GenerateDynamodbAdapter } from './Generators/dynamodb';
+import { GenerateFirebaseAdapter } from './Generators/firebase';
+import { GenerateMikroOrmAdapter } from './Generators/mikroOrm';
+import { GenerateSequelizeAdapter } from './Generators/sequelize';
+import { GenerateUpstashRedisAdapter } from './Generators/upstashRedis';
 import {
 	DbTypes,
 	ProviderType,
@@ -15,17 +26,6 @@ import {
 	FlagOptions,
 	ProviderOptions,
 } from '../typings';
-import { GenerateDynamodbAdapter } from './Generators/dynamodb';
-import { GenerateFaunaAdapter } from './Generators/fauna';
-import path from 'path';
-import { GenerateFirebaseAdapter } from './Generators/firebase';
-import { GenerateKyselyAdapter } from './Generators/kysely';
-import { GenerateMikroOrmAdapter } from './Generators/mikroOrm';
-import { GenerateNeo4jAdapter } from './Generators/neo4j';
-import { GenerateUpstashRedisAdapter } from './Generators/upstashRedis';
-import { GenerateSupabaseAdapter } from './Generators/supabase';
-import { GenerateSequelizeAdapter } from './Generators/sequelize';
-import { GenerateDgraphAdapter } from './Generators/dgraph';
 
 const getImports = (
 	options: OptionsType,
@@ -62,6 +62,52 @@ const getImports = (
 	return {
 		allImports: `${providerImports}${adapterImports}`,
 	};
+};
+
+const getAuthOptions = (
+	options: OptionsType,
+	ts?: boolean,
+	adapter?: AdapterType,
+) => {
+	// Generating providers...
+	let data = '',
+		response: { providerOptions: string; adapterOptions: string } = {
+			providerOptions: '',
+			adapterOptions: '',
+		};
+	const { env, ...config } = options;
+
+	for (const [key, value] of Object.entries(config)) {
+		if (!value) {
+			continue;
+		}
+		let params = '';
+		const { importName, options: contents } =
+			providers[key as ProviderOptions];
+
+		for (const [key, value] of Object.entries(contents)) {
+			if (typeof value === 'string') {
+				params += `\n\t\t\t${key}: process.env.${value}${
+					ts ? ' as string' : ''
+				},`;
+				continue;
+			}
+			const { name, type } = value;
+			params += `\n\t\t\t${key}: process.env.${name}${
+				ts ? ` as ${type}` : ''
+			},`;
+		}
+		data += `\n\t\t${importName}({${params}\n\t\t}),`;
+	}
+	response.providerOptions = data;
+
+	// Generating Adapters if any...
+	if (adapter && Adapters[adapter]) {
+		const { adapterParams: params, importName: option } = Adapters[adapter];
+		response.adapterOptions = `\n\tadapter: ${adapter}(${params})`;
+	}
+
+	return response;
 };
 
 export const getProviders = async (
@@ -128,36 +174,40 @@ export const getProviders = async (
 	return providers;
 };
 
-export const generateBaseInitialTemplate = (
+export const GenerateTemplate = (
 	options: Omit<OptionsType, 'ts'>,
 	ts?: boolean,
 	adapter?: AdapterType,
 	router?: 'app' | 'pages',
 ) => {
-	// console.log('generateBaseInitialTemplate call...');
-	const { comment, export: exp } = getTsAdditions(ts);
+	const { comment, export: exportStatement } = getTsAdditions(ts);
 	const { allImports } = getImports(options, ts, adapter);
+	const { adapterOptions, providerOptions } = getAuthOptions(
+		options,
+		ts,
+		adapter,
+	);
 
 	return `${allImports}
 export const authOptions${ts ? ': NextAuthOptions' : ''} = {
 	// Configure one or more authentication providers${comment}
-	providers: [${getProviders(options, ts, adapter)}
+	providers: [${providerOptions}
 		// ...add more providers here
-	],${adapter && Adapters[adapter] ? getAdapters(adapter) : ''}
+	],${adapterOptions ?? ''}
 };
 
-${exp}`;
+${exportStatement}`;
 };
 
-// const getAdapterImport = (adapter: AdapterType) => {};
+// // const getAdapterImport = (adapter: AdapterType) => {};
 
-const getAdapters = (customAdapter: AdapterType) => {
-	// console.log('getAdapters call...');
-	const { adapterParams: params, importName: adapter } =
-		Adapters[customAdapter];
+// const getAdapters = (customAdapter: AdapterType) => {
+// 	// console.log('getAdapters call...');
+// 	const { adapterParams: params, importName: adapter } =
+// 		Adapters[customAdapter];
 
-	return `\n\tadapter: ${adapter}(${params})`;
-};
+// 	return `\n\tadapter: ${adapter}(${params})`;
+// };
 
 export function hasValidProviders(obj: OptionsType, keys: FlagOptions[]) {
 	for (let key in obj) {
@@ -181,11 +231,71 @@ export { handler as GET, handler as POST };`,
 	return { comment: '', export: 'export default NextAuth(authOptions);' };
 };
 
+export const GenerateEnvVariables = async (options: OptionsType) => {
+	const { provider, env, ts, adapter, router, db, ...config } = options;
+
+	if (!env) {
+		return;
+	}
+	let data = '';
+	for (const [key, value] of Object.entries(config)) {
+		// params = '';
+		if (!value) {
+			continue;
+		}
+
+		const { name, options } = providers[key as ProviderOptions];
+		data += `# Environmental variables for ${name} Provider.\n`;
+
+		for (let [key, value] of Object.entries(options)) {
+			if (typeof value === 'string') {
+				data += `${value}=\n`;
+				continue;
+			}
+			data += `${value.name}=\n`;
+		}
+		data += `\n`;
+	}
+
+	if (adapter && Adapters[adapter] && Adapters[adapter].secrets) {
+		let secrets = Adapters[adapter]?.secrets;
+		if (secrets.length > 0) {
+			data += `# Environmental variables for ${adapter} Adapter.\n`;
+		}
+		for (let secret of secrets) {
+			data += `${secret}=\n`;
+		}
+	}
+
+	const envGenerator = createSpinner('Generating .env.example file...', {
+		color: 'cyan',
+	}).start();
+	const styledEnv = bold('.env.example');
+
+	fs.access('.env.example', fs.constants.F_OK, (err) => {
+		fs.writeFile('.env.example', data, (err) => {
+			if (err) {
+				envGenerator.error({
+					text: `Failed to Update ${styledEnv} file.`,
+				});
+			}
+		});
+	});
+	await sleep(400);
+	envGenerator.success({
+		text: `${styledEnv} Generated.`,
+	});
+};
+
 export const GenerateAdapterConfigurations = async (
 	ext: ExtentionTypes = '.js',
 	db?: DbTypes,
 	adapter?: AdapterType,
 ) => {
+	if (!adapter || !Adapters[adapter]) {
+		return;
+	}
+
 	switch (adapter) {
 		case 'dgraph':
 			GenerateDgraphAdapter(ext);
