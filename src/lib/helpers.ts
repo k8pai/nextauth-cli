@@ -1,4 +1,6 @@
 import fs from 'fs';
+import { red, bold } from 'picocolors';
+import { createSpinner } from 'nanospinner';
 import { Adapters } from './Adapters';
 import { GeneratePrismaAdapter } from './Generators/prisma';
 import { GenerateMongodbAdapter } from './Generators/mongodb';
@@ -25,36 +27,44 @@ import { GenerateSupabaseAdapter } from './Generators/supabase';
 import { GenerateSequelizeAdapter } from './Generators/sequelize';
 import { GenerateDgraphAdapter } from './Generators/dgraph';
 
-export const getProviderImports = (
+const getImports = (
 	options: OptionsType,
 	ts?: boolean,
 	adapter?: AdapterType,
 ) => {
-	let imports = `import NextAuth from 'next-auth';`;
-	imports += ts ? `\nimport type { NextAuthOptions } from "next-auth"\n` : '';
+	let adapterImports = '',
+		providerImports = `import NextAuth from 'next-auth';\n`;
+
+	// logic for provider imports...
+	providerImports += ts
+		? `import type { NextAuthOptions } from "next-auth";\n`
+		: '';
 
 	const { env, ...config } = options;
-
-	// console.log('keys in configs from getProviderImports => ', config);
-
 	for (let val in config) {
-		console.log('val = ', val);
 		const { importOptions } = providers[val as ProviderOptions];
 		for (let { defaultImport, name, path } of importOptions) {
-			imports += `import ${
+			providerImports += `import ${
 				defaultImport ? `${name}` : `{ ${name} }`
 			} from '${path}';\n`;
 		}
 	}
 
+	// logic for adapter imports if any adapters are present...
 	if (adapter && Adapters[adapter]) {
-		imports += generateAdapterImport(adapter);
+		let { importOptions } = Adapters[adapter];
+		for (let { defaultImport, name, path } of importOptions) {
+			adapterImports += `import ${
+				defaultImport ? `${name}` : `{ ${name} }`
+			} from '${path}';\n`;
+		}
 	}
-
-	return imports;
+	return {
+		allImports: `${providerImports}${adapterImports}`,
+	};
 };
 
-export const getProviders = (
+export const getProviders = async (
 	options: Omit<OptionsType, 'ts'>,
 	ts?: boolean,
 	adapter?: AdapterType,
@@ -63,8 +73,6 @@ export const getProviders = (
 	let providers = '',
 		envVariables = '';
 	const { env, ...config } = options;
-
-	// console.log('keys in configs from getProviders => ', config);
 
 	for (const [key, value] of Object.entries(config)) {
 		params = '';
@@ -98,13 +106,23 @@ export const getProviders = (
 	}
 
 	if (env) {
+		const nextGenerator = createSpinner('Generating .env.example file...', {
+			color: 'cyan',
+		}).start();
+		const styledEnv = bold('.env.example');
+
 		fs.access('.env.example', fs.constants.F_OK, (err) => {
 			fs.writeFile('.env.example', envVariables, (err) => {
-				if (err) throw err;
-				console.log(
-					'Updated .env.example file with the variables to be used!',
-				);
+				if (err) {
+					nextGenerator.error({
+						text: `Failed to Update ${styledEnv} file.`,
+					});
+				}
 			});
+		});
+		await sleep(400);
+		nextGenerator.success({
+			text: `${styledEnv} Generated.`,
 		});
 	}
 	return providers;
@@ -116,33 +134,25 @@ export const generateBaseInitialTemplate = (
 	adapter?: AdapterType,
 	router?: 'app' | 'pages',
 ) => {
+	// console.log('generateBaseInitialTemplate call...');
 	const { comment, export: exp } = getTsAdditions(ts);
+	const { allImports } = getImports(options, ts, adapter);
 
-	return `${getProviderImports(options, ts, adapter)}
-
+	return `${allImports}
 export const authOptions${ts ? ': NextAuthOptions' : ''} = {
 	// Configure one or more authentication providers${comment}
 	providers: [${getProviders(options, ts, adapter)}
 		// ...add more providers here
-	],${adapter && Adapters[adapter] ? generateAdapter(adapter) : ''}
+	],${adapter && Adapters[adapter] ? getAdapters(adapter) : ''}
 };
 
 ${exp}`;
 };
 
-const generateAdapterImport = (adapter: AdapterType) => {
-	let { importOptions } = Adapters[adapter];
-	let result = '';
+// const getAdapterImport = (adapter: AdapterType) => {};
 
-	for (let { defaultImport, name, path } of importOptions) {
-		result += `import ${
-			defaultImport ? `${name}` : `{ ${name} }`
-		} from '${path}';\n`;
-	}
-	return result;
-};
-
-const generateAdapter = (customAdapter: AdapterType) => {
+const getAdapters = (customAdapter: AdapterType) => {
+	// console.log('getAdapters call...');
 	const { adapterParams: params, importName: adapter } =
 		Adapters[customAdapter];
 
@@ -171,7 +181,7 @@ export { handler as GET, handler as POST };`,
 	return { comment: '', export: 'export default NextAuth(authOptions);' };
 };
 
-export const GenerateAdapterConfigurations = (
+export const GenerateAdapterConfigurations = async (
 	ext: ExtentionTypes = '.js',
 	db?: DbTypes,
 	adapter?: AdapterType,
@@ -236,3 +246,6 @@ export const CreateFolderAndWrite = (
 
 	fs.writeFileSync(fileName, content, 'utf-8');
 };
+
+export const sleep = (ms: number = 2000) =>
+	new Promise((R) => setTimeout(R, ms));
