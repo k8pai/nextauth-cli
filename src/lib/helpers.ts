@@ -4,19 +4,6 @@ import { Adapters } from './Adapters';
 import { bold } from 'picocolors';
 import { createSpinner } from 'nanospinner';
 import { ProviderKeys, providers } from './Providers';
-import { GenerateNeo4jAdapter } from './Generators/neo4j';
-import { GenerateFaunaAdapter } from './Generators/fauna';
-import { GeneratePrismaAdapter } from './Generators/prisma';
-import { GenerateKyselyAdapter } from './Generators/kysely';
-import { GenerateDgraphAdapter } from './Generators/dgraph';
-import { GenerateMongodbAdapter } from './Generators/mongodb';
-import { GenerateDrizzleAdapter } from './Generators/drizzle';
-import { GenerateSupabaseAdapter } from './Generators/supabase';
-import { GenerateDynamodbAdapter } from './Generators/dynamodb';
-import { GenerateFirebaseAdapter } from './Generators/firebase';
-import { GenerateMikroOrmAdapter } from './Generators/mikroOrm';
-import { GenerateSequelizeAdapter } from './Generators/sequelize';
-import { GenerateUpstashRedisAdapter } from './Generators/upstashRedis';
 import {
 	DbTypes,
 	ProviderType,
@@ -26,6 +13,22 @@ import {
 	FlagOptions,
 	ProviderOptions,
 } from '../typings';
+import {
+	GenerateDgraphConfig,
+	GenerateDrizzleSchema,
+	GenerateDynamodbConfig,
+	GenerateFaunaConfig,
+	GenerateFirebaseConfig,
+	GenerateKyselyConfig,
+	GenerateMikroOrmConfig,
+	GenerateMongodbClient,
+	GenerateNeo4jConfig,
+	GeneratePrismaConfig,
+	GeneratePrismaSchema,
+	GenerateSequelizeConfig,
+	GenerateSupabaseConfig,
+	GenerateUpstashRedisConfig,
+} from '../templates';
 
 const getImports = (
 	options: OptionsType,
@@ -298,46 +301,75 @@ export const GenerateAdapterConfigurations = async (
 
 	switch (adapter) {
 		case 'dgraph':
-			GenerateDgraphAdapter(ext);
+			CreateFolderAndWrite('lib', `config${ext}`, GenerateDgraphConfig());
 			break;
 		case 'drizzle':
-			GenerateDrizzleAdapter(db);
+			CreateFolderAndWrite('lib', 'schema.ts', GenerateDrizzleSchema(db));
 			break;
 		case 'dynamodb':
-			GenerateDynamodbAdapter(ext);
+			CreateFolderAndWrite(
+				'lib',
+				`dynamodb${ext}`,
+				GenerateDynamodbConfig(ext),
+			);
 			break;
 		case 'fauna':
-			GenerateFaunaAdapter(ext);
+			CreateFolderAndWrite('lib', `fauna${ext}`, GenerateFaunaConfig());
 			break;
 		case 'firebase':
-			GenerateFirebaseAdapter(ext);
+			CreateFolderAndWrite(
+				'lib',
+				`firestore${ext}`,
+				GenerateFirebaseConfig(),
+			);
 			break;
 		case 'kysely':
-			GenerateKyselyAdapter(ext);
+			CreateFolderAndWrite('lib', `db.ts`, GenerateKyselyConfig());
 			break;
 		case 'mikroOrm':
-			GenerateMikroOrmAdapter(ext);
+			CreateFolderAndWrite('lib', `config.ts`, GenerateMikroOrmConfig());
 			break;
 		case 'mongodb':
-			GenerateMongodbAdapter(ext);
+			CreateFolderAndWrite(
+				'lib',
+				`mongodb${ext}`,
+				GenerateMongodbClient(ext),
+			);
 			break;
 		case 'neo4j':
-			GenerateNeo4jAdapter(ext);
+			CreateFolderAndWrite('lib', `config${ext}`, GenerateNeo4jConfig());
 			break;
 		case 'pouchdb':
 			// GenerateKyselyAdapter(ext);
 			break;
 		case 'prisma':
-			GeneratePrismaAdapter(ext, db);
+			CreateFolderAndWrite('lib', `prisma${ext}`, GeneratePrismaConfig());
+			CreateFolderAndWrite(
+				'prisma',
+				`schema.prisma`,
+				GeneratePrismaSchema(db),
+			);
 			break;
 		case 'sequalize':
-			GenerateSequelizeAdapter(ext);
+			CreateFolderAndWrite(
+				'lib',
+				`config${ext}`,
+				GenerateSequelizeConfig(),
+			);
 			break;
 		case 'supabase':
-			GenerateSupabaseAdapter(ext);
+			CreateFolderAndWrite(
+				'lib',
+				`config${ext}`,
+				GenerateSupabaseConfig(),
+			);
 			break;
 		case 'upstashRedis':
-			GenerateUpstashRedisAdapter(ext);
+			CreateFolderAndWrite(
+				'lib',
+				`redis${ext}`,
+				GenerateUpstashRedisConfig(),
+			);
 			break;
 	}
 };
