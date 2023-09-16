@@ -1,11 +1,12 @@
 import { Command } from 'commander';
-import { cyan, green, red, yellow, bold, blue } from 'picocolors';
+import { cyan, green, magenta, red, yellow, bold, blue } from 'picocolors';
 import prompts from 'prompts';
 import { providerChoices, providers } from './lib/Providers.js';
-import { hasValidProviders } from './lib/helpers.js';
+import { hasValidProviders, sleep } from './lib/helpers.js';
 import { NextGenerator } from './lib/generators.js';
 import { OptionsType, ProviderOptions } from './typings.js';
 import { adapterChoices } from './lib/Adapters.js';
+import { createSpinner } from 'nanospinner';
 
 const program = new Command();
 
@@ -20,21 +21,21 @@ const onPromptState = (state: any) => {
 };
 
 program
-	.option('--env', 'update .env file with provider variables as well!')
+	.option('-E, --env', 'update .env file with provider variables as well!')
 	.option(
-		'--ts',
+		'-T, --ts',
 		'Provide if you have a typescript project setup or not. Default js files are created...',
 	)
 	.option('-R, --router <router>', 'Router type of your next.js application.')
 	.option(
-		'--provider <provider>',
+		'-P, --provider <provider>',
 		'Keep the value of the `--provider` flag as your provider.',
 	)
 	.option(
-		'--adapter <adapter>',
+		'-A, --adapter <adapter>',
 		'Keep the value of the `--adapter` flag as your adapter.',
 	)
-	.option('--db <db>', 'Type of db provided.')
+	.option('-D, --db <db>', 'Type of db provided.')
 	.action(async (options: OptionsType) => {
 		let provider: ProviderOptions[] = ['GitHub'];
 		let { router, env, adapter, ts } = options;
@@ -62,9 +63,12 @@ program
 		}
 
 		if (!router || (router !== 'pages' && router !== 'app')) {
+			const styledHelp = yellow('nextauth --help');
 			if (router !== 'pages' && router !== 'app') {
 				console.log(
-					'Such a route is not yet defined, Support us by raising an issue?\nhttps://github.com/k8pai/nextauth-cli/issues',
+					magenta(
+						`Such a route is not yet defined, try ${styledHelp}`,
+					),
 				);
 			}
 			const styledApp = blue('/app');
@@ -155,21 +159,25 @@ program
 		for (let val of provider) {
 			options[val] = true;
 		}
-		// console.log('options => ', options);
 
 		if (
 			!hasValidProviders(options, [
 				'ts',
 				'env',
 				'adapter',
+				'provider',
 				'router',
 				'db',
 			])
 		) {
 			options.GitHub = true;
 		}
-		// console.log('options => ', options);
-		NextGenerator(options, router!, 'api/auth/[...nextauth]', 'route');
+
+		if (router === 'app') {
+			NextGenerator(options, router!, 'api/auth/[...nextauth]', 'route');
+		} else if (router === 'pages') {
+			NextGenerator(options, router!, 'api/auth', '[...nextauth]');
+		}
 	});
 
 // `next-app` command instance!
