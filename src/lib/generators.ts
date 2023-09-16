@@ -11,14 +11,7 @@ import {
 import { ExtentionTypes, OptionsType } from '../typings';
 import { Adapters } from './Adapters';
 import { createSpinner } from 'nanospinner';
-// import ora from 'ora';
 
-// const spinner = ora('Loading unicorns').start();
-
-// setTimeout(() => {
-// 	spinner.color = 'yellow';
-// 	spinner.text = 'Loading rainbows';
-// }, 1000);
 export const NextGenerator = async (
 	options: OptionsType,
 	dir: 'app' | 'pages',
