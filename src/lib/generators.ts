@@ -4,7 +4,8 @@ import { red, yellow, italic, bold } from 'picocolors';
 import {
 	CreateFolderAndWrite,
 	GenerateAdapterConfigurations,
-	generateBaseInitialTemplate,
+	GenerateEnvVariables,
+	GenerateTemplate,
 	sleep,
 } from './helpers';
 import { ExtentionTypes, OptionsType } from '../typings';
@@ -52,36 +53,23 @@ export const NextGenerator = async (
 	});
 
 	try {
-		// CreateFolderAndWrite(
-		// 	`${dir}/${target}`,
-		// 	`${file}${ext}`,
-		// 	generateBaseInitialTemplate(config, ts, adapter, router),
-		// );
-
+		// create initial [...nextauth].{ts/js} files
 		if (!fs.existsSync(targetDirectory)) {
 			fs.mkdirSync(targetDirectory, { recursive: true });
 		}
 
 		fs.writeFileSync(
 			filePath,
-			generateBaseInitialTemplate(config, ts, adapter, router),
+			GenerateTemplate(config, ts, adapter, router),
 			'utf-8',
 		);
 
-		if (adapter) {
-			if (Adapters[adapter]) {
-				GenerateAdapterConfigurations(ext, db, adapter);
-			} else {
-				// console.log(
-				// 	`No such Adapter support is available. Did you mean '${checkSimilarAdapter(
-				// 		adapter,
-				// 	)}'?`,
-				// );
-			}
-		}
-		// console.log(`Processing complete!`);
+		// Generate env variables in a .env.example files if env flag is provided.
+		GenerateEnvVariables(options);
+
+		// Generate env variables in a .env.example files if env flag is provided.
+		GenerateAdapterConfigurations(ext, db, adapter);
 	} catch (error) {
-		console.log('error from catch');
 		console.error(red(error as string));
 	}
 };
