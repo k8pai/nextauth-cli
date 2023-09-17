@@ -71,12 +71,18 @@ const getAuthOptions = (
 	options: OptionsType,
 	ts?: boolean,
 	adapter?: AdapterType,
+	secret?: boolean,
 ) => {
 	// Generating providers...
 	let data = '',
-		response: { providerOptions: string; adapterOptions: string } = {
+		response: {
+			providerOptions: string;
+			adapterOptions: string;
+			secretOptions: string;
+		} = {
 			providerOptions: '',
 			adapterOptions: '',
+			secretOptions: '',
 		};
 	const { env, ...config } = options;
 
@@ -106,10 +112,14 @@ const getAuthOptions = (
 
 	// Generating Adapters if any...
 	if (adapter && Adapters[adapter]) {
-		const { adapterParams: params, importName: option } = Adapters[adapter];
-		response.adapterOptions = `\n\tadapter: ${adapter}(${params})`;
+		const { adapterParams: params, importName } = Adapters[adapter];
+		response.adapterOptions = `\n\tadapter: ${importName}(${params}),`;
 	}
 
+	// Generating Secret fields if any...
+	if (secret) {
+		response.secretOptions = `\n\tsecret: process.env.NEXTAUTH_SECRET,`;
+	}
 	return response;
 };
 
@@ -182,13 +192,15 @@ export const GenerateTemplate = (
 	ts?: boolean,
 	adapter?: AdapterType,
 	router?: 'app' | 'pages',
+	secret?: boolean,
 ) => {
 	const { comment, export: exportStatement } = getTsAdditions(ts);
 	const { allImports } = getImports(options, ts, adapter);
-	const { adapterOptions, providerOptions } = getAuthOptions(
+	const { adapterOptions, providerOptions, secretOptions } = getAuthOptions(
 		options,
 		ts,
 		adapter,
+		secret,
 	);
 
 	return `${allImports}
@@ -196,7 +208,7 @@ export const authOptions${ts ? ': NextAuthOptions' : ''} = {
 	// Configure one or more authentication providers${comment}
 	providers: [${providerOptions}
 		// ...add more providers here
-	],${adapterOptions ?? ''}
+	],${adapterOptions ?? ''}${secretOptions ?? ''}
 };
 
 ${exportStatement}`;
@@ -235,7 +247,8 @@ export { handler as GET, handler as POST };`,
 };
 
 export const GenerateEnvVariables = async (options: OptionsType) => {
-	const { provider, env, ts, adapter, router, db, ...config } = options;
+	const { provider, env, ts, adapter, router, db, secret, ...config } =
+		options;
 
 	if (!env) {
 		return;
@@ -257,17 +270,20 @@ export const GenerateEnvVariables = async (options: OptionsType) => {
 			}
 			data += `${value.name}=\n`;
 		}
-		data += `\n`;
 	}
 
 	if (adapter && Adapters[adapter] && Adapters[adapter].secrets) {
 		let secrets = Adapters[adapter]?.secrets;
 		if (secrets.length > 0) {
-			data += `# Environmental variables for ${adapter} Adapter.\n`;
+			data += `\n# Environmental variables for ${adapter} Adapter.\n`;
 		}
 		for (let secret of secrets) {
 			data += `${secret}=\n`;
 		}
+	}
+
+	if (secret) {
+		data += `\nNEXTAUTH_SECRET=\n`;
 	}
 
 	const envGenerator = createSpinner('Generating .env.example file...', {

@@ -15,6 +15,7 @@ export type ProviderType = {
 export type InitFlags = {
 	db?: DbTypes;
 	ts?: boolean;
+	secret?: boolean;
 	env?: boolean;
 	router?: Routers;
 	adapter?: AdapterType;
@@ -27,6 +28,7 @@ export type FlagOptions =
 	| 'db'
 	| 'ts'
 	| 'env'
+	| 'secret'
 	| 'router'
 	| 'adapter'
 	| 'provider';

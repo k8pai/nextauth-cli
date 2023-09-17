@@ -18,7 +18,7 @@ export const NextGenerator = async (
 	target: 'api/auth/[...nextauth]' | 'api/auth',
 	file: '[...nextauth]' | 'route',
 ) => {
-	const { ts, adapter, db, router, provider, ...config } = options;
+	const { ts, adapter, db, router, provider, secret, ...config } = options;
 
 	let baseDirectory = path.join(process.cwd(), dir);
 	let targetDirectory = path.join(baseDirectory, target);
@@ -53,7 +53,7 @@ export const NextGenerator = async (
 
 		fs.writeFileSync(
 			filePath,
-			GenerateTemplate(config, ts, adapter, router),
+			GenerateTemplate(config, ts, adapter, router, secret),
 			'utf-8',
 		);
 

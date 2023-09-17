@@ -35,6 +35,7 @@ program
 		'-A, --adapter <adapter>',
 		'Keep the value of the `--adapter` flag as your adapter.',
 	)
+	.option('-S, --secret', 'Adds the `secret` field in the NextAuth options.')
 	.option('-D, --db <db>', 'Type of db provided.')
 	.action(async (options: OptionsType) => {
 		let provider: ProviderOptions[] = ['GitHub'];
@@ -46,6 +47,7 @@ program
 			'env',
 			'router',
 			'adapter',
+			'secret',
 		]);
 
 		if (!providerIsPresent) {
@@ -162,12 +164,13 @@ program
 
 		if (
 			!hasValidProviders(options, [
+				'db',
 				'ts',
 				'env',
+				'router',
+				'secret',
 				'adapter',
 				'provider',
-				'router',
-				'db',
 			])
 		) {
 			options.GitHub = true;
