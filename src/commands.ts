@@ -38,16 +38,16 @@ program
 	.option('-S, --secret', 'Adds the `secret` field in the NextAuth options.')
 	.option('-D, --db <db>', 'Type of db provided.')
 	.action(async (options: OptionsType) => {
-		let provider: ProviderOptions[] = ['GitHub'];
-		let { router, env, adapter, ts } = options;
+		let customProvider: ProviderOptions[] = ['GitHub'];
+		let { router, env, adapter, provider, ts } = options;
 
 		let providerIsPresent = hasValidProviders(options, [
 			'db',
 			'ts',
 			'env',
+			'secret',
 			'router',
 			'adapter',
-			'secret',
 		]);
 
 		if (!providerIsPresent) {
@@ -61,7 +61,11 @@ program
 				choices: providerChoices,
 				hint: `- Space to select. - Return/Enter to submit. 'A' - Select all.`,
 			});
-			provider = providerType;
+			customProvider = providerType;
+
+			for (let val of customProvider) {
+				options[val] = true;
+			}
 		}
 
 		if (!router || (router !== 'pages' && router !== 'app')) {
@@ -158,8 +162,8 @@ program
 			options.env = Boolean(envType);
 		}
 
-		for (let val of provider) {
-			options[val] = true;
+		if (provider) {
+			options[provider] = true;
 		}
 
 		if (
@@ -175,6 +179,9 @@ program
 		) {
 			options.GitHub = true;
 		}
+
+		console.log('providers => ', customProvider);
+		console.log('options => ', options);
 
 		if (router === 'app') {
 			NextGenerator(options, router!, 'api/auth/[...nextauth]', 'route');
