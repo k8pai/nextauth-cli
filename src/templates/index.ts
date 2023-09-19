@@ -1,3 +1,4 @@
+import { CredentialOptions } from './credentials';
 import { GenerateDgraphConfig } from './dgraph';
 import { GenerateNeo4jConfig } from './neo4j';
 import { GenerateFaunaConfig } from './fauna';
@@ -27,4 +28,5 @@ export {
 	GenerateSequelizeConfig,
 	GenerateSupabaseConfig,
 	GenerateUpstashRedisConfig,
+	CredentialOptions,
 };

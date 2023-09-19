@@ -94,18 +94,28 @@ const getAuthOptions = (
 		const { importName, options: contents } =
 			providers[key as ProviderOptions];
 
-		for (const [key, value] of Object.entries(contents)) {
-			if (typeof value === 'string') {
-				params += `\n\t\t\t${key}: process.env.${value}${
-					ts ? ' as string' : ''
+		const { Generator } = contents;
+		console.log('Generator => ', contents);
+		if (Generator && typeof Generator !== 'boolean') {
+			params += Generator();
+		} else {
+			for (const [key, value] of Object.entries(contents)) {
+				if (key === 'Generator') {
+					continue;
+				}
+				if (typeof value === 'string') {
+					params += `\n\t\t\t${key}: process.env.${value}${
+						ts ? ' as string' : ''
+					},`;
+					continue;
+				}
+				const { name, type } = value;
+				params += `\n\t\t\t${key}: process.env.${name}${
+					ts ? ` as ${type}` : ''
 				},`;
-				continue;
 			}
-			const { name, type } = value;
-			params += `\n\t\t\t${key}: process.env.${name}${
-				ts ? ` as ${type}` : ''
-			},`;
 		}
+
 		data += `\n\t\t${importName}({${params}\n\t\t}),`;
 	}
 	response.providerOptions = data;

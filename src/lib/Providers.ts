@@ -1,3 +1,5 @@
+import { CredentialOptions } from '../templates';
+
 export const providers = {
 	Apple: {
 		name: 'Apple',
@@ -10,7 +12,11 @@ export const providers = {
 		],
 		importName: 'AppleProvider',
 		path: 'apple',
-		options: { clientId: 'APPLE_ID', clientSecret: 'APPLE_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'APPLE_ID',
+			clientSecret: 'APPLE_SECRET',
+		},
 	},
 	Asgardeo: {
 		name: 'Asgardeo',
@@ -24,6 +30,7 @@ export const providers = {
 		importName: 'AsgardeoProvider',
 		path: 'asgardeo',
 		options: {
+			Generator: false,
 			clientId: 'ASGARDEO_ID',
 			clientSecret: 'ASGARDEO_SECRET',
 			issuer: 'ASGARDEO_ISSUER',
@@ -40,7 +47,11 @@ export const providers = {
 		],
 		importName: 'AtlassianProvider',
 		path: 'atlassian',
-		options: { clientId: 'ATLASSIAN_ID', clientSecret: 'ATLASSIAN_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'ATLASSIAN_ID',
+			clientSecret: 'ATLASSIAN_SECRET',
+		},
 	},
 	Auth0: {
 		name: 'Auth0',
@@ -54,6 +65,7 @@ export const providers = {
 		importName: 'Auth0Provider',
 		path: 'auth0',
 		options: {
+			Generator: false,
 			clientId: 'AUTH0_ID',
 			clientSecret: 'AUTH0_SECRET',
 			issuer: 'AUTH0_ISSUER',
@@ -70,7 +82,11 @@ export const providers = {
 		],
 		importName: 'AuthentikProvider',
 		path: 'authentik',
-		options: { clientId: 'AUTHENTIK_ID', clientSecret: 'AUTHENTIK_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'AUTHENTIK_ID',
+			clientSecret: 'AUTHENTIK_SECRET',
+		},
 	},
 	AzureAD: {
 		name: 'AzureAD',
@@ -83,7 +99,11 @@ export const providers = {
 		],
 		importName: 'AzureADProvider',
 		path: 'azure-ad',
-		options: { clientId: 'AZUREAD_ID', clientSecret: 'AZUREAD_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'AZUREAD_ID',
+			clientSecret: 'AZUREAD_SECRET',
+		},
 	},
 	AzureB2C: {
 		name: 'AzureB2C',
@@ -96,7 +116,11 @@ export const providers = {
 		],
 		importName: 'AzureADB2CProvider',
 		path: 'azure-ad-b2c',
-		options: { clientId: 'AZUREB2C_ID', clientSecret: 'AZUREB2C_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'AZUREB2C_ID',
+			clientSecret: 'AZUREB2C_SECRET',
+		},
 	},
 	AzureDevOps: {
 		name: 'AzureDevOps',
@@ -110,6 +134,7 @@ export const providers = {
 		importName: 'AzureDevOpsProvider',
 		path: 'azure-devops',
 		options: {
+			Generator: false,
 			clientId: 'AZURE_DEVOPS_ID',
 			clientSecret: 'AZURE_DEVOPS_SECRET',
 			scope: 'AZURE_DEVOPS_SCOPE',
@@ -127,6 +152,7 @@ export const providers = {
 		importName: 'BattleNetProvider',
 		path: 'battlenet',
 		options: {
+			Generator: false,
 			clientId: 'BN_ID',
 			clientSecret: 'BN_SECRET',
 			issuer: {
@@ -147,6 +173,7 @@ export const providers = {
 		importName: 'BeyondIdentityProvider',
 		path: 'beyondidentity',
 		options: {
+			Generator: false,
 			clientId: 'BEYOND_IDENTITY_ID',
 			clientSecret: 'BEYOND_IDENTITY_SECRET',
 			issuer: 'BEYOND_IDENTITY_ISSUER',
@@ -163,7 +190,11 @@ export const providers = {
 		],
 		importName: 'BoxProvider',
 		path: 'box',
-		options: { clientId: 'BOX_ID', clientSecret: 'BOX_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'BOX_ID',
+			clientSecret: 'BOX_SECRET',
+		},
 	},
 	BoxyHQSAML: {
 		name: 'BoxyHQSAML',
@@ -177,6 +208,7 @@ export const providers = {
 		importName: 'BoxyHQSAMLProvider',
 		path: 'boxyhq-saml',
 		options: {
+			Generator: false,
 			clientId: 'BOXYHQ_ID',
 			clientSecret: 'BOXYHQ_SECRET',
 			issuer: 'BOXYHQ_ISSUER',
@@ -194,7 +226,11 @@ export const providers = {
 		],
 		importName: 'BungieProvider',
 		path: 'bungie',
-		options: { clientId: 'BUNGIE_ID', clientSecret: 'BUNGIE_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'BUNGIE_ID',
+			clientSecret: 'BUNGIE_SECRET',
+		},
 	},
 	Cognito: {
 		name: 'Cognito',
@@ -207,7 +243,11 @@ export const providers = {
 		],
 		importName: 'CognitoProvider',
 		path: 'cognito',
-		options: { clientId: 'COGNITO_ID', clientSecret: 'COGNITO_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'COGNITO_ID',
+			clientSecret: 'COGNITO_SECRET',
+		},
 	},
 	Coinbase: {
 		name: 'Coinbase',
@@ -220,7 +260,26 @@ export const providers = {
 		],
 		importName: 'CoinbaseProvider',
 		path: 'coinbase',
-		options: { clientId: 'COINBASE_ID', clientSecret: 'COINBASE_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'COINBASE_ID',
+			clientSecret: 'COINBASE_SECRET',
+		},
+	},
+	Credentials: {
+		name: 'Credentials',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'CredentialsProvider',
+				path: 'next-auth/providers/credentials',
+			},
+		],
+		importName: 'CredentialsProvider',
+		path: 'credentials',
+		options: {
+			Generator: CredentialOptions,
+		},
 	},
 	Descope: {
 		name: 'Descope',
@@ -233,7 +292,11 @@ export const providers = {
 		],
 		importName: 'DescopeProvider',
 		path: 'descope',
-		options: { clientId: 'DESCOPE_ID', clientSecret: 'DESCOPE_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'DESCOPE_ID',
+			clientSecret: 'DESCOPE_SECRET',
+		},
 	},
 	Dribbble: {
 		name: 'Dribbble',
@@ -246,7 +309,11 @@ export const providers = {
 		],
 		importName: 'DribbbleProvider',
 		path: 'dribbble',
-		options: { clientId: 'DRIBBBLE_ID', clientSecret: 'DRIBBBLE_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'DRIBBBLE_ID',
+			clientSecret: 'DRIBBBLE_SECRET',
+		},
 	},
 	Discord: {
 		name: 'Discord',
@@ -259,7 +326,11 @@ export const providers = {
 		],
 		importName: 'DiscordProvider',
 		path: 'discord',
-		options: { clientId: 'DISCORD_ID', clientSecret: 'DISCORD_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'DISCORD_ID',
+			clientSecret: 'DISCORD_SECRET',
+		},
 	},
 	Dropbox: {
 		name: 'Dropbox',
@@ -272,7 +343,11 @@ export const providers = {
 		],
 		importName: 'DropboxProvider',
 		path: 'dropbox',
-		options: { clientId: 'DROPBOX_ID', clientSecret: 'DROPBOX_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'DROPBOX_ID',
+			clientSecret: 'DROPBOX_SECRET',
+		},
 	},
 	DuendeIDS6: {
 		name: 'DuendeIDS6',
@@ -286,6 +361,7 @@ export const providers = {
 		importName: 'DuendeIDS6Provider',
 		path: 'duende-identity-server6',
 		options: {
+			Generator: false,
 			clientId: 'DUENDEIDS6_ID',
 			clientSecret: 'DUENDEIDS6_SECRET',
 		},
@@ -302,6 +378,7 @@ export const providers = {
 		importName: 'EmailProvider',
 		path: 'email',
 		options: {
+			Generator: false,
 			server: {
 				name: 'EMAIL_SERVER',
 				value: 'smtp://username:password@smtp.example.com:587',
@@ -320,7 +397,11 @@ export const providers = {
 		],
 		importName: 'EVEOnlineProvider',
 		path: 'eveonline',
-		options: { clientId: 'EVEONLINE_ID', clientSecret: 'EVEONLINE_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'EVEONLINE_ID',
+			clientSecret: 'EVEONLINE_SECRET',
+		},
 	},
 	Facebook: {
 		name: 'Facebook',
@@ -333,7 +414,11 @@ export const providers = {
 		],
 		importName: 'FacebookProvider',
 		path: 'facebook',
-		options: { clientId: 'FACEBOOK_ID', clientSecret: 'FACEBOOK_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'FACEBOOK_ID',
+			clientSecret: 'FACEBOOK_SECRET',
+		},
 	},
 	Faceit: {
 		name: 'Faceit',
@@ -346,7 +431,11 @@ export const providers = {
 		],
 		importName: 'FaceItProvider',
 		path: 'faceit',
-		options: { clientId: 'FACEIT_ID', clientSecret: 'FACEIT_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'FACEIT_ID',
+			clientSecret: 'FACEIT_SECRET',
+		},
 	},
 	FortyTwoSchool: {
 		name: 'FortyTwoSchool',
@@ -360,6 +449,7 @@ export const providers = {
 		importName: 'FortyTwoProvider',
 		path: '42-school',
 		options: {
+			Generator: false,
 			clientId: 'FORTYTWOSCHOOL_ID',
 			clientSecret: 'FORTYTWOSCHOOL_SECRET',
 		},
@@ -376,6 +466,7 @@ export const providers = {
 		importName: 'FourSquareProvider',
 		path: 'foursquare',
 		options: {
+			Generator: false,
 			clientId: 'FOURSQUARE_ID',
 			clientSecret: 'FOURSQUARE_SECRET',
 		},
@@ -392,6 +483,7 @@ export const providers = {
 		importName: 'FreshbooksProvider',
 		path: 'freshbooks',
 		options: {
+			Generator: false,
 			clientId: 'FRESHBOOKS_ID',
 			clientSecret: 'FRESHBOOKS_SECRET',
 		},
@@ -407,7 +499,11 @@ export const providers = {
 		],
 		importName: 'FusionAuthProvider',
 		path: 'fusionauth',
-		options: { clientId: 'FUSIONID', clientSecret: 'FUSIONSECRET' },
+		options: {
+			Generator: false,
+			clientId: 'FUSIONID',
+			clientSecret: 'FUSIONSECRET',
+		},
 	},
 	GitHub: {
 		name: 'GitHub',
@@ -420,7 +516,11 @@ export const providers = {
 		],
 		importName: 'GitHubProvider',
 		path: 'github',
-		options: { clientId: 'GITHUB_ID', clientSecret: 'GITHUB_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'GITHUB_ID',
+			clientSecret: 'GITHUB_SECRET',
+		},
 	},
 	Gitlab: {
 		name: 'Gitlab',
@@ -433,7 +533,11 @@ export const providers = {
 		],
 		importName: 'GitlabProvider',
 		path: 'gitlab',
-		options: { clientId: 'GITLAB_ID', clientSecret: 'GITLAB_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'GITLAB_ID',
+			clientSecret: 'GITLAB_SECRET',
+		},
 	},
 	Google: {
 		name: 'Google',
@@ -446,7 +550,11 @@ export const providers = {
 		],
 		importName: 'GoogleProvider',
 		path: 'google',
-		options: { clientId: 'GOOGLE_ID', clientSecret: 'GOOGLE_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'GOOGLE_ID',
+			clientSecret: 'GOOGLE_SECRET',
+		},
 	},
 	Hubspot: {
 		name: 'Hubspot',
@@ -459,7 +567,11 @@ export const providers = {
 		],
 		importName: 'HubspotProvider',
 		path: 'hubspot',
-		options: { clientId: 'HUBSPOT_ID', clientSecret: 'HUBSPOT_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'HUBSPOT_ID',
+			clientSecret: 'HUBSPOT_SECRET',
+		},
 	},
 	IdentityServer4: {
 		name: 'IdentityServer4',
@@ -473,6 +585,7 @@ export const providers = {
 		importName: 'IdentityServer4Provider',
 		path: 'identity-server4',
 		options: {
+			Generator: false,
 			clientId: 'IDENTITY_SERVER4_ID',
 			clientSecret: 'IDENTITY_SERVER4_SECRET',
 			issuer: 'IDENTITY_SERVER4_ISSUER',
@@ -489,7 +602,11 @@ export const providers = {
 		],
 		importName: 'InstagramProvider',
 		path: 'instagram',
-		options: { clientId: 'INSTAGRAM_ID', clientSecret: 'INSTAGRAM_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'INSTAGRAM_ID',
+			clientSecret: 'INSTAGRAM_SECRET',
+		},
 	},
 	Kakao: {
 		name: 'Kakao',
@@ -502,7 +619,11 @@ export const providers = {
 		],
 		importName: 'KakaoProvider',
 		path: 'kakao',
-		options: { clientId: 'KAKAO_ID', clientSecret: 'KAKAO_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'KAKAO_ID',
+			clientSecret: 'KAKAO_SECRET',
+		},
 	},
 	Keycloak: {
 		name: 'Keycloak',
@@ -515,7 +636,11 @@ export const providers = {
 		],
 		importName: 'KeycloakProvider',
 		path: 'keycloak',
-		options: { clientId: 'KEYCLOAK_ID', clientSecret: 'KEYCLOAK_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'KEYCLOAK_ID',
+			clientSecret: 'KEYCLOAK_SECRET',
+		},
 	},
 	Line: {
 		name: 'Line',
@@ -528,7 +653,11 @@ export const providers = {
 		],
 		importName: 'LineProvider',
 		path: 'line',
-		options: { clientId: 'LINE_ID', clientSecret: 'LINE_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'LINE_ID',
+			clientSecret: 'LINE_SECRET',
+		},
 	},
 	LinkedIn: {
 		name: 'LinkedIn',
@@ -541,7 +670,11 @@ export const providers = {
 		],
 		importName: 'LinkedInProvider',
 		path: 'linkedin',
-		options: { clientId: 'LINKEDIN_ID', clientSecret: 'LINKEDIN_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'LINKEDIN_ID',
+			clientSecret: 'LINKEDIN_SECRET',
+		},
 	},
 	Mailchimp: {
 		name: 'Mailchimp',
@@ -554,7 +687,11 @@ export const providers = {
 		],
 		importName: 'MailchimpProvider',
 		path: 'mailchimp',
-		options: { clientId: 'MAILCHIMP_ID', clientSecret: 'MAILCHIMP_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'MAILCHIMP_ID',
+			clientSecret: 'MAILCHIMP_SECRET',
+		},
 	},
 	Mailru: {
 		name: 'Mailru',
@@ -567,7 +704,11 @@ export const providers = {
 		],
 		importName: 'MailRuProvider',
 		path: 'mailru',
-		options: { clientId: 'MAILRU_ID', clientSecret: 'MAILRU_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'MAILRU_ID',
+			clientSecret: 'MAILRU_SECRET',
+		},
 	},
 	Mastodon: {
 		name: 'Mastodon',
@@ -581,6 +722,7 @@ export const providers = {
 		importName: 'MastodonProvider',
 		path: 'mastodon',
 		options: {
+			Generator: false,
 			clientId: 'MASTODON_ID',
 			clientSecret: 'MASTODON_SECRET',
 			issuer: 'MASTODON_ISSUER',
@@ -598,6 +740,7 @@ export const providers = {
 		importName: 'MattermostProvider',
 		path: 'mattermost',
 		options: {
+			Generator: false,
 			clientId: 'MATTERMOST_ID',
 			clientSecret: 'MATTERMOST_SECRET',
 			issuer: 'MATTERMOST_ISSUER',
@@ -614,7 +757,11 @@ export const providers = {
 		],
 		importName: 'MediumProvider',
 		path: 'medium',
-		options: { clientId: 'MEDIUM_ID', clientSecret: 'MEDIUM_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'MEDIUM_ID',
+			clientSecret: 'MEDIUM_SECRET',
+		},
 	},
 	Naver: {
 		name: 'Naver',
@@ -627,7 +774,11 @@ export const providers = {
 		],
 		importName: 'NaverProvider',
 		path: 'naver',
-		options: { clientId: 'NAVER_ID', clientSecret: 'NAVER_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'NAVER_ID',
+			clientSecret: 'NAVER_SECRET',
+		},
 	},
 	Notion: {
 		name: 'Notion',
@@ -641,6 +792,7 @@ export const providers = {
 		importName: 'NotionProvider',
 		path: 'notion',
 		options: {
+			Generator: false,
 			clientId: 'NOTION_ID',
 			clientSecret: 'NOTION_SECRET',
 			redirectUri: 'NOTION_REDIRECT_URI',
@@ -657,7 +809,11 @@ export const providers = {
 		],
 		importName: 'NetlifyProvider',
 		path: 'netlify',
-		options: { clientId: 'NETLIFY_ID', clientSecret: 'NETLIFY_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'NETLIFY_ID',
+			clientSecret: 'NETLIFY_SECRET',
+		},
 	},
 	Okta: {
 		name: 'Okta',
@@ -670,7 +826,11 @@ export const providers = {
 		],
 		importName: 'OktaProvider',
 		path: 'okta',
-		options: { clientId: 'OKTA_ID', clientSecret: 'OKTA_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'OKTA_ID',
+			clientSecret: 'OKTA_SECRET',
+		},
 	},
 	Onelogin: {
 		name: 'Onelogin',
@@ -683,7 +843,11 @@ export const providers = {
 		],
 		importName: 'OneLoginProvider',
 		path: 'onelogin',
-		options: { clientId: 'ONELOGIN_ID', clientSecret: 'ONELOGIN_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'ONELOGIN_ID',
+			clientSecret: 'ONELOGIN_SECRET',
+		},
 	},
 	Osso: {
 		name: 'Osso',
@@ -697,6 +861,7 @@ export const providers = {
 		importName: 'OssoProvider',
 		path: 'osso',
 		options: {
+			Generator: false,
 			clientId: 'OSSO_ID',
 			clientSecret: 'OSSO_SECRET',
 			issuer: 'OSSO_ISSUER',
@@ -714,7 +879,11 @@ export const providers = {
 		],
 		importName: 'OsuProvider',
 		path: 'osu',
-		options: { clientId: 'OSU_ID', clientSecret: 'OSU_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'OSU_ID',
+			clientSecret: 'OSU_SECRET',
+		},
 	},
 	Passage: {
 		name: 'Passage',
@@ -728,6 +897,7 @@ export const providers = {
 		importName: 'PassageProvider',
 		path: 'passage',
 		options: {
+			Generator: false,
 			clientId: 'PASSAGE_ID',
 			clientSecret: 'PASSAGE_SECRET',
 			issuer: 'PASSAGE_ISSUER',
@@ -745,7 +915,11 @@ export const providers = {
 		],
 		importName: 'PatreonProvider',
 		path: 'patreon',
-		options: { clientId: 'PATREON_ID', clientSecret: 'PATREON_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'PATREON_ID',
+			clientSecret: 'PATREON_SECRET',
+		},
 	},
 	Pinterest: {
 		name: 'Pinterest',
@@ -758,7 +932,11 @@ export const providers = {
 		],
 		importName: 'PinterestProvider',
 		path: 'pinterest',
-		options: { clientId: 'PINTEREST_ID', clientSecret: 'PINTEREST_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'PINTEREST_ID',
+			clientSecret: 'PINTEREST_SECRET',
+		},
 	},
 	Pipedrive: {
 		name: 'Pipedrive',
@@ -771,7 +949,11 @@ export const providers = {
 		],
 		importName: 'PipedriveProvider',
 		path: 'pipedrive',
-		options: { clientId: 'PIPEDRIVE_ID', clientSecret: 'PIPEDRIVE_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'PIPEDRIVE_ID',
+			clientSecret: 'PIPEDRIVE_SECRET',
+		},
 	},
 	Reddit: {
 		name: 'Reddit',
@@ -784,7 +966,11 @@ export const providers = {
 		],
 		importName: 'RedditProvider',
 		path: 'reddit',
-		options: { clientId: 'REDDIT_ID', clientSecret: 'REDDIT_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'REDDIT_ID',
+			clientSecret: 'REDDIT_SECRET',
+		},
 	},
 	Salesforce: {
 		name: 'Salesforce',
@@ -798,6 +984,7 @@ export const providers = {
 		importName: 'SalesforceProvider',
 		path: 'salesforce',
 		options: {
+			Generator: false,
 			clientId: 'SALESFORCE_ID',
 			clientSecret: 'SALESFORCE_SECRET',
 		},
@@ -813,7 +1000,11 @@ export const providers = {
 		],
 		importName: 'SlackProvider',
 		path: 'slack',
-		options: { clientId: 'SLACK_ID', clientSecret: 'SLACK_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'SLACK_ID',
+			clientSecret: 'SLACK_SECRET',
+		},
 	},
 	Spotify: {
 		name: 'Spotify',
@@ -826,7 +1017,11 @@ export const providers = {
 		],
 		importName: 'SpotifyProvider',
 		path: 'spotify',
-		options: { clientId: 'SPOTIFY_ID', clientSecret: 'SPOTIFY_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'SPOTIFY_ID',
+			clientSecret: 'SPOTIFY_SECRET',
+		},
 	},
 	Strava: {
 		name: 'Strava',
@@ -839,7 +1034,11 @@ export const providers = {
 		],
 		importName: 'StravaProvider',
 		path: 'strava',
-		options: { clientId: 'STRAVA_ID', clientSecret: 'STRAVA_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'STRAVA_ID',
+			clientSecret: 'STRAVA_SECRET',
+		},
 	},
 	Tiktok: {
 		name: 'Tiktok',
@@ -852,7 +1051,11 @@ export const providers = {
 		],
 		importName: 'TiktokProvider',
 		path: 'tiktok',
-		options: { clientId: 'TIKTOK_ID', clientSecret: 'TIKTOK_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'TIKTOK_ID',
+			clientSecret: 'TIKTOK_SECRET',
+		},
 	},
 	Todoist: {
 		name: 'Todoist',
@@ -865,7 +1068,11 @@ export const providers = {
 		],
 		importName: 'TodoistProvider',
 		path: 'todoist',
-		options: { clientId: 'TODOIST_ID', clientSecret: 'TODOIST_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'TODOIST_ID',
+			clientSecret: 'TODOIST_SECRET',
+		},
 	},
 	Trakt: {
 		name: 'Trakt',
@@ -878,7 +1085,11 @@ export const providers = {
 		],
 		importName: 'TraktProvider',
 		path: 'trakt',
-		options: { clientId: 'TRAKT_ID', clientSecret: 'TRAKT_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'TRAKT_ID',
+			clientSecret: 'TRAKT_SECRET',
+		},
 	},
 	Twitch: {
 		name: 'Twitch',
@@ -891,7 +1102,11 @@ export const providers = {
 		],
 		importName: 'TwitchProvider',
 		path: 'twitch',
-		options: { clientId: 'TWITCH_ID', clientSecret: 'TWITCH_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'TWITCH_ID',
+			clientSecret: 'TWITCH_SECRET',
+		},
 	},
 	Twitter: {
 		name: 'Twitter',
@@ -904,7 +1119,11 @@ export const providers = {
 		],
 		importName: 'TwitterProvider',
 		path: 'twitter',
-		options: { clientId: 'TWITTER_ID', clientSecret: 'TWITTER_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'TWITTER_ID',
+			clientSecret: 'TWITTER_SECRET',
+		},
 		version: '2.0',
 	},
 	UnitedEffects: {
@@ -919,6 +1138,7 @@ export const providers = {
 		importName: 'UnitedEffectsProvider',
 		path: 'united-effects',
 		options: {
+			Generator: false,
 			clientId: 'UE_ID',
 			clientSecret: 'UE_SECRET',
 			issuer: 'UE_ISSUER',
@@ -935,7 +1155,11 @@ export const providers = {
 		],
 		importName: 'VkProvider',
 		path: 'vk',
-		options: { clientId: 'VK_ID', clientSecret: 'VK_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'VK_ID',
+			clientSecret: 'VK_SECRET',
+		},
 	},
 	Wikimedia: {
 		name: 'Wikimedia',
@@ -948,7 +1172,11 @@ export const providers = {
 		],
 		importName: 'WikimediaProvider',
 		path: 'wikimedia',
-		options: { clientId: 'WIKIMEDIA_ID', clientSecret: 'WIKIMEDIA_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'WIKIMEDIA_ID',
+			clientSecret: 'WIKIMEDIA_SECRET',
+		},
 	},
 	Wordpress: {
 		name: 'Wordpress',
@@ -961,7 +1189,11 @@ export const providers = {
 		],
 		importName: 'WordpressProvider',
 		path: 'wordpress',
-		options: { clientId: 'WORDPRESS_ID', clientSecret: 'WORDPRESS_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'WORDPRESS_ID',
+			clientSecret: 'WORDPRESS_SECRET',
+		},
 	},
 	WorkOS: {
 		name: 'WorkOS',
@@ -974,7 +1206,11 @@ export const providers = {
 		],
 		importName: 'WorkOSProvider',
 		path: 'workos',
-		options: { clientId: 'WORKOS_ID', clientSecret: 'WORKOS_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'WORKOS_ID',
+			clientSecret: 'WORKOS_SECRET',
+		},
 	},
 	Yandex: {
 		name: 'Yandex',
@@ -987,7 +1223,11 @@ export const providers = {
 		],
 		importName: 'YandexProvider',
 		path: 'yandex',
-		options: { clientId: 'YANDEX_ID', clientSecret: 'YANDEX_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'YANDEX_ID',
+			clientSecret: 'YANDEX_SECRET',
+		},
 	},
 	Zitadel: {
 		name: 'Zitadel',
@@ -1000,7 +1240,11 @@ export const providers = {
 		],
 		importName: 'ZitadelProvider',
 		path: 'zitadel',
-		options: { clientId: 'ZITADEL_ID', clientSecret: 'ZITADEL_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'ZITADEL_ID',
+			clientSecret: 'ZITADEL_SECRET',
+		},
 	},
 	Zoho: {
 		name: 'Zoho',
@@ -1013,7 +1257,11 @@ export const providers = {
 		],
 		importName: 'ZohoProvider',
 		path: 'zoho',
-		options: { clientId: 'ZOHO_ID', clientSecret: 'ZOHO_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'ZOHO_ID',
+			clientSecret: 'ZOHO_SECRET',
+		},
 	},
 	Zoom: {
 		name: 'Zoom',
@@ -1026,7 +1274,11 @@ export const providers = {
 		],
 		importName: 'ZoomProvider',
 		path: 'zoom',
-		options: { clientId: 'ZOOM_ID', clientSecret: 'ZOOM_SECRET' },
+		options: {
+			Generator: false,
+			clientId: 'ZOOM_ID',
+			clientSecret: 'ZOOM_SECRET',
+		},
 	},
 };
 
