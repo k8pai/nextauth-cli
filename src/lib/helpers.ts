@@ -214,16 +214,6 @@ export const authOptions${ts ? ': NextAuthOptions' : ''} = {
 ${exportStatement}`;
 };
 
-// // const getAdapterImport = (adapter: AdapterType) => {};
-
-// const getAdapters = (customAdapter: AdapterType) => {
-// 	// console.log('getAdapters call...');
-// 	const { adapterParams: params, importName: adapter } =
-// 		Adapters[customAdapter];
-
-// 	return `\n\tadapter: ${adapter}(${params})`;
-// };
-
 export function hasValidProviders(obj: OptionsType, keys: FlagOptions[]) {
 	for (let key in obj) {
 		// console.log(`Processing key => ${key}`);
@@ -268,7 +258,7 @@ export const GenerateEnvVariables = async (options: OptionsType) => {
 				data += `${value}=\n`;
 				continue;
 			}
-			data += `${value.name}=\n`;
+			data += `${value.name}=${value.value ?? ''}\n`;
 		}
 	}
 

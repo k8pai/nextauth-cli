@@ -290,6 +290,25 @@ export const providers = {
 			clientSecret: 'DUENDEIDS6_SECRET',
 		},
 	},
+	Email: {
+		name: 'Email',
+		importOptions: [
+			{
+				defaultImport: true,
+				name: 'EmailProvider',
+				path: 'next-auth/providers/email',
+			},
+		],
+		importName: 'EmailProvider',
+		path: 'email',
+		options: {
+			server: {
+				name: 'EMAIL_SERVER',
+				value: 'smtp://username:password@smtp.example.com:587',
+			},
+			from: { name: 'EMAIL_FROM', value: 'noreply@example.com' },
+		},
+	},
 	Eveonline: {
 		name: 'Eveonline',
 		importOptions: [
