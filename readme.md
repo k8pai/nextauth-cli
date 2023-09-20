@@ -192,6 +192,71 @@ nextauth next-pages --GitHub --env --ts --adapter=prisma
 -   `upstash-redis`✅
 -   `xata`⚒️
 
+## Provider Support
+
+-   `Apple` ✅
+-   `Atlassian` ✅
+-   `Auth0` ✅
+-   `Authentik` ✅
+-   `AzureAD` ✅
+-   `AzureB2C` ✅
+-   `Battlenet` ✅
+-   `Box` ✅
+-   `BoxyHQSAML` ✅
+-   `Bungie` ✅
+-   `Cognito` ✅
+-   `Coinbase` ✅
+-   `Discord` ✅
+-   `Dropbox` ✅
+-   `DuendeIDS6` ✅
+-   `Eveonline` ✅
+-   `Facebook` ✅
+-   `Faceit` ✅
+-   `FortyTwoSchool` ✅
+-   `Foursquare` ✅
+-   `Freshbooks` ✅
+-   `Fusionauth` ✅
+-   `GitHub` ✅
+-   `Gitlab` ✅
+-   `Google` ✅
+-   `Hubspot` ✅
+-   `Instagram` ✅
+-   `Kakao` ✅
+-   `Keycloak` ✅
+-   `Line` ✅
+-   `LinkedIn` ✅
+-   `Mailchimp` ✅
+-   `Mailru` ✅
+-   `Medium` ✅
+-   `Naver` ✅
+-   `Netlify` ✅
+-   `Okta` ✅
+-   `Onelogin` ✅
+-   `Osso` ✅
+-   `Osu` ✅
+-   `Passage` ✅
+-   `Patreon` ✅
+-   `Pinterest` ✅
+-   `Pipedrive` ✅
+-   `Reddit` ✅
+-   `Salesforce` ✅
+-   `Slack` ✅
+-   `Spotify` ✅
+-   `Strava` ✅
+-   `Todoist` ✅
+-   `Trakt` ✅
+-   `Twitch` ✅
+-   `Twitter` ✅
+-   `UnitedEffects` ✅
+-   `Vk` ✅
+-   `Wikimedia` ✅
+-   `Wordpress` ✅
+-   `WorkOS` ✅
+-   `Yandex` ✅
+-   `Zitadel` ✅
+-   `Zoho` ✅
+-   `Zoom` ✅
+
 ## Fixes to be made.
 
 -   Adapters `xata`, `pouchdb` and `mikro-orm` are to be made effective. ✔️
