@@ -22,6 +22,8 @@ npm i -g nextauth-cli@latest
 
 The CLI provides a set of commands to streamline the setup process for NextAuth.js projects. Here are the available commands:
 
+1. **Commands with flags.**
+
 ```bash
 nextauth --router <router-type> --provider <provider> --adapter <adapter> --secret --env --ts
 ```
@@ -126,6 +128,8 @@ Creates a new project with the the specified Next.js base template. Options for 
     -   `Zitadel` ✅
     -   `Zoho` ✅
     -   `Zoom` ✅
+
+2. **Commands with prompts support.**
 
 ```bash
 nextauth
