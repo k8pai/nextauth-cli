@@ -6,6 +6,7 @@ NextAuth CLI is a command-line interface tool designed to simplify the process o
 
 -   [Installation](#installation)
 -   [Usage](#usage)
+-   [Example](#example)
 -   [Contributing](#contributing)
 -   [License](#license)
 
@@ -21,7 +22,9 @@ npm i -g nextauth-cli@latest
 
 The CLI provides a set of commands to streamline the setup process for NextAuth.js projects. Here are the available commands:
 
-### `nextauth --router <router-type> --provider <provider> --adapter <adapter> --env --ts`
+```bash
+nextauth --router <router-type> --provider <provider> --adapter <adapter> --secret --env --ts
+```
 
 Creates a new project with the the specified Next.js base template. Options for the following flags are given below.
 
@@ -30,6 +33,8 @@ Creates a new project with the the specified Next.js base template. Options for 
 -   `--env`: Specifies if an additional `.env.example` file is to be generated which includes all the `process.env` variables that are to be used. Default value is **false**.
 
 -   `--ts`: Specifies if the project is **typescript** configured. Default value is **false**.
+
+-   `--secret`: Specifies if NextAuth options should include a secret field.
 
 -   `--router <router-type>`: Specifies the type of Next.js router to be used. Available options:
 
@@ -122,9 +127,28 @@ Creates a new project with the the specified Next.js base template. Options for 
     -   `Zoho` ✅
     -   `Zoom` ✅
 
-### `nextauth`
+```bash
+nextauth
+```
 
 Initializes the NextAuth.js base template with **prompts** support.
+
+## Example
+
+```bash
+nextauth --router app --provider Google --adapter mongodb --env --ts --secret
+```
+
+In this example:
+
+-   `--router app`: Specifies that the project will use the Next.js router with the "app" type.
+-   `--provider Google`: Specifies that Google authentication will be used.
+-   `--adapter mongodb`: Specifies that the project will use MongoDB as the database adapter.
+-   `--env`: Indicates that an additional `.env.example` file will be generated.
+-   `--ts`: Specifies that the project will be configured for TypeScript.
+-   `--secret`: Indicates that NextAuth options will include a secret field.
+
+Feel free to modify the options and values based on your specific use case.
 
 ## Status
 
