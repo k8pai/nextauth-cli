@@ -31,6 +31,7 @@ export type FlagOptions =
 	| 'secret'
 	| 'router'
 	| 'adapter'
+	| 'dynamic'
 	| 'provider';
 
 export type OptionsType = ProviderType & InitFlags;
@@ -43,3 +44,14 @@ export type drizzleDbTypes = 'postgres' | 'mysql' | 'sqlite';
 export type prismaDbTypes = 'postgresql' | 'mongodb';
 
 export type DbTypes = drizzleDbTypes & prismaDbTypes;
+
+// sveltekit specific typings
+export type SveltekitOptionsType = ProviderType & {
+	ts?: boolean;
+	db?: DbTypes;
+	env?: boolean;
+	secret?: boolean;
+	dynamic?: boolean;
+	adapter?: AdapterType;
+	provider?: ProviderOptions;
+};

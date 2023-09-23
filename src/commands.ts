@@ -2,25 +2,15 @@ import { Command } from 'commander';
 import { cyan, green, magenta, red, yellow, bold, blue } from 'picocolors';
 import prompts from 'prompts';
 import { providerChoices, providers } from './lib/Providers.js';
-import { hasValidProviders, sleep } from './lib/helpers.js';
+import { hasValidProviders, onPromptState, sleep } from './lib/helpers.js';
 import { NextGenerator } from './lib/generators.js';
 import { OptionsType, ProviderOptions } from './typings.js';
 import { adapterChoices } from './lib/Adapters.js';
 import { createSpinner } from 'nanospinner';
 
-const program = new Command();
+const nextauth = new Command();
 
-const onPromptState = (state: any) => {
-	if (state.aborted) {
-		// If we don't re-enable the terminal cursor before exiting
-		// the program, the cursor will remain hidden
-		process.stdout.write('\x1B[?25h');
-		process.stdout.write('\n');
-		process.exit(1);
-	}
-};
-
-program
+nextauth
 	.option('-E, --env', 'update .env file with provider variables as well!')
 	.option(
 		'-T, --ts',
@@ -236,9 +226,9 @@ program
 
 // Adding options for both `next-app` and `next-pages` command!
 for (let key in providers) {
-	program.option(`--${key}`, `Add ${key} Provider.`);
+	nextauth.option(`--${key}`, `Add ${key} Provider.`);
 	// nextapp.option(`--${key}`, `Add ${key} Provider.`);
 	// nextpages.option(`--${key}`, `Add ${key} Provider.`);
 }
 
-export default program;
+export default nextauth;

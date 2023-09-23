@@ -4,7 +4,8 @@
 	"description": "A nextauth cli to setup a basic application Setup running",
 	"exports": "./dist/index.js",
 	"bin": {
-		"nextauth": "./dist/index.js"
+		"nextauth": "./dist/nextauth.js",
+		"svelteauth": "./dist/sveltekit.js"
 	},
 	"scripts": {
 		"build": "tsup src --format cjs,esm --minify --dts",

@@ -2,13 +2,16 @@ import fs from 'fs';
 import path from 'path';
 import { red, yellow, italic, bold } from 'picocolors';
 import {
+	CreateFileAndWrite,
 	CreateFolderAndWrite,
 	GenerateAdapterConfigurations,
 	GenerateEnvVariables,
+	GenerateSveltekitEnvVariables,
+	GenerateSveltekitTemplate,
 	GenerateTemplate,
 	sleep,
 } from './helpers';
-import { ExtentionTypes, OptionsType } from '../typings';
+import { ExtentionTypes, OptionsType, SveltekitOptionsType } from '../typings';
 import { Adapters } from './Adapters';
 import { createSpinner } from 'nanospinner';
 
@@ -65,4 +68,24 @@ export const NextGenerator = async (
 	} catch (error) {
 		console.error(red(error as string));
 	}
+};
+
+export const SveltekitGenerator = (
+	options: SveltekitOptionsType,
+	dir: 'src' = 'src',
+) => {
+	const { env, ts, adapter, secret, dynamic, db, ...rest } = options;
+
+	let ext: ExtentionTypes = ts ? '.ts' : '.js';
+
+	CreateFileAndWrite(
+		dir,
+		'hooks.server.ts',
+		GenerateSveltekitTemplate(rest, adapter, env, ts, secret, db, dynamic),
+	);
+
+	GenerateSveltekitEnvVariables(options);
+
+	// Generate env variables in a .env.example files if env flag is provided.
+	GenerateAdapterConfigurations(ext, db, adapter);
 };
