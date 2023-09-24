@@ -2,7 +2,6 @@
 	"name": "nextauth-cli",
 	"version": "0.0.6",
 	"description": "A nextauth cli to setup a basic application Setup running",
-	"exports": null,
 	"bin": {
 		"solidauth": "./dist/solid.js",
 		"nextauth": "./dist/nextauth.js",
