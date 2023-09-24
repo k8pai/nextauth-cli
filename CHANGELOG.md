@@ -1,5 +1,25 @@
 # nextauth-cli
 
+## 0.0.6
+
+### Patch Changes
+
+-   ### Patch Changes
+
+    -   #### Updates on `svelteauth` Command
+
+        -   Added new `--dynamic` for platform based env variables.
+        -   `src` based Template Generations for configuration files.
+        -   Stable Prompt Support.
+
+    -   #### Updates on `solidauth` Command
+
+        -   `src` based Template Generations for configuration files.
+        -   Stable Prompt Support.
+
+    -   #### General Updates
+        -   Included Latest Providers and Adapters from `Authjs`
+
 ## 0.0.5
 
 ### Patch Changes

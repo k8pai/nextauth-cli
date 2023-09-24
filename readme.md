@@ -5,6 +5,10 @@ NextAuth CLI is a command-line interface tool designed to simplify the process o
 ## Table of Contents
 
 -   [Installation](#installation)
+-   [Commands](#commands)
+    -   [Next.js Specific Commands](#nextauth)
+    -   [Sveletekit Specific Commands](#svelteauth)
+    -   [Solid Specific Commands](#solidauth)
 -   [Usage](#usage)
 -   [Example](#example)
 -   [Contributing](#contributing)
@@ -18,9 +22,37 @@ To install the NextAuth CLI, you can use npm:
 npm i -g nextauth-cli@latest
 ```
 
+## Commands
+
+The CLI provides a set of commands to streamline the setup process for **NextAuth.js**, **Sveltekit** and **Solid** | **Solid-start** projects. Below are the available commands for each project type:
+
+### Nextauth
+
+1. **For Nextjs Projects**
+
+```bash
+nextauth --router <router-type> --provider <provider> --adapter <adapter> --secret --env --ts
+```
+
+### Svelteauth
+
+2. **For Sveltekit Projects**
+
+```bash
+svelteauth --provider <provider> --adapter <adapter> --dynamic --secret --env --ts
+```
+
+### Solidauth
+
+3. **For Solid | Solid-start Projects**
+
+```bash
+solidauth --provider <provider> --adapter <adapter> --secret --env --ts
+```
+
 ## Usage
 
-The CLI provides a set of commands to streamline the setup process for NextAuth.js projects. Here are the available commands:
+Efficiently set up your authentication flow with **NextAuth.js**, **Sveltekit**, or **Solid** | **Solid-start** projects using the provided CLI commands:
 
 1. **Commands with flags.**
 
@@ -131,13 +163,11 @@ Creates a new project with the the specified Next.js base template. Options for 
 
 2. **Commands with prompts support.**
 
-```bash
-nextauth
-```
-
-Initializes the NextAuth.js base template with **prompts** support.
+The CLI ensures a seamless setup process by offering a prompt-based support to configure your specific project requirements. This interactive approach allows you to customize the authentication flow according to your needs effortlessly.
 
 ## Example
+
+**Nextjs**
 
 ```bash
 nextauth --router app --provider Google --adapter mongodb --env --ts --secret
@@ -145,9 +175,39 @@ nextauth --router app --provider Google --adapter mongodb --env --ts --secret
 
 In this example:
 
--   `--router app`: Specifies that the project will use the Next.js router with the "app" type.
+-   `--router app`: Specifies that the project will use the Next.js router with the "**app**" type.
 -   `--provider Google`: Specifies that Google authentication will be used.
 -   `--adapter mongodb`: Specifies that the project will use MongoDB as the database adapter.
+-   `--env`: Indicates that an additional `.env.example` file will be generated.
+-   `--ts`: Specifies that the project will be configured for TypeScript.
+-   `--secret`: Indicates that NextAuth options will include a secret field.
+
+**Sveltekit**
+
+```bash
+svelteauth --provider Google --adapter mongodb --env --ts --secret --dynamic
+```
+
+In this example:
+
+-   `--provider Google`: Specifies that Google authentication will be used.
+-   `--adapter mongodb`: Specifies that the project will use MongoDB as the database adapter.
+-   `--env`: Indicates that an additional `.env.example` file will be generated.
+-   `--ts`: Specifies that the project will be configured for TypeScript.
+-   `--secret`: Indicates that NextAuth options will include a secret field.
+-   `--dynamic`: Specifies that the module provides access to runtime environment variables, as defined by the platform you're running on.
+
+**Solid**
+
+```bash
+solidauth --provider Google --adapter prisma --env --ts --secret --db mongodb
+```
+
+In this example:
+
+-   `--provider Google`: Specifies that Google authentication will be used.
+-   `--adapter prisma`: Specifies that the project will use Prisma as the database adapter.
+-   `--db mongodb`: Specifies that Prisma adapter uses `MongoDb` as it's database.
 -   `--env`: Indicates that an additional `.env.example` file will be generated.
 -   `--ts`: Specifies that the project will be configured for TypeScript.
 -   `--secret`: Indicates that NextAuth options will include a secret field.

@@ -1,15 +1,15 @@
 {
 	"name": "nextauth-cli",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"description": "A nextauth cli to setup a basic application Setup running",
-	"exports": "./dist/index.js",
+	"exports": null,
 	"bin": {
 		"solidauth": "./dist/solid.js",
 		"nextauth": "./dist/nextauth.js",
 		"svelteauth": "./dist/sveltekit.js"
 	},
 	"scripts": {
-		"build": "tsup src --format cjs,esm --minify --dts",
+		"build": "tsup src --format cjs,esm, --minify --dts",
 		"link": "yarn --global unlink nextauth-cli && yarn --global link",
 		"dev": "tsc -W"
 	},
