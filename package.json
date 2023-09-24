@@ -4,6 +4,7 @@
 	"description": "A nextauth cli to setup a basic application Setup running",
 	"exports": "./dist/index.js",
 	"bin": {
+		"solidauth": "./dist/solid.js",
 		"nextauth": "./dist/nextauth.js",
 		"svelteauth": "./dist/sveltekit.js"
 	},

@@ -55,3 +55,13 @@ export type SveltekitOptionsType = ProviderType & {
 	adapter?: AdapterType;
 	provider?: ProviderOptions;
 };
+
+// solid specific typings
+export type SolidOptionsType = ProviderType & {
+	ts?: boolean;
+	db?: DbTypes;
+	env?: boolean;
+	secret?: boolean;
+	adapter?: AdapterType;
+	provider?: ProviderOptions;
+};

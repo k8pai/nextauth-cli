@@ -287,20 +287,22 @@ export const GenerateEnvVariables = async (options: OptionsType) => {
 			}
 			data += `${value.name}=${value.value ?? ''}\n`;
 		}
+		data += '\n';
 	}
 
 	if (adapter && Adapters[adapter] && Adapters[adapter].secrets) {
 		let secrets = Adapters[adapter]?.secrets;
 		if (secrets.length > 0) {
-			data += `\n# Environmental variables for ${adapter} Adapter.\n`;
+			data += `# Environmental variables for ${adapter} Adapter.\n`;
 		}
 		for (let secret of secrets) {
 			data += `${secret}=\n`;
 		}
+		data += '\n';
 	}
 
 	if (secret) {
-		data += `\nNEXTAUTH_SECRET=\n`;
+		data += `NEXTAUTH_SECRET=\n`;
 	}
 
 	const envGenerator = createSpinner('Generating .env.example file...', {
@@ -327,6 +329,7 @@ export const GenerateAdapterConfigurations = async (
 	ext: ExtentionTypes = '.js',
 	db?: DbTypes,
 	adapter?: AdapterType,
+	dir?: 'src',
 ) => {
 	if (!adapter || !Adapters[adapter]) {
 		return;
@@ -334,49 +337,82 @@ export const GenerateAdapterConfigurations = async (
 
 	switch (adapter) {
 		case 'dgraph':
-			CreateFolderAndWrite('lib', `config${ext}`, GenerateDgraphConfig());
+			CreateFolderAndWrite(
+				'lib',
+				`config${ext}`,
+				GenerateDgraphConfig(),
+				dir,
+			);
 			break;
 		case 'drizzle':
-			CreateFolderAndWrite('lib', 'schema.ts', GenerateDrizzleSchema(db));
+			CreateFolderAndWrite(
+				'lib',
+				'schema.ts',
+				GenerateDrizzleSchema(db),
+				dir,
+			);
 			break;
 		case 'dynamodb':
 			CreateFolderAndWrite(
 				'lib',
 				`dynamodb${ext}`,
 				GenerateDynamodbConfig(ext),
+				dir,
 			);
 			break;
 		case 'fauna':
-			CreateFolderAndWrite('lib', `fauna${ext}`, GenerateFaunaConfig());
+			CreateFolderAndWrite(
+				'lib',
+				`fauna${ext}`,
+				GenerateFaunaConfig(),
+				dir,
+			);
 			break;
 		case 'firebase':
 			CreateFolderAndWrite(
 				'lib',
 				`firestore${ext}`,
 				GenerateFirebaseConfig(),
+				dir,
 			);
 			break;
 		case 'kysely':
-			CreateFolderAndWrite('lib', `db.ts`, GenerateKyselyConfig());
+			CreateFolderAndWrite('lib', `db.ts`, GenerateKyselyConfig(), dir);
 			break;
 		case 'mikroOrm':
-			CreateFolderAndWrite('lib', `config.ts`, GenerateMikroOrmConfig());
+			CreateFolderAndWrite(
+				'lib',
+				`config.ts`,
+				GenerateMikroOrmConfig(),
+				dir,
+			);
 			break;
 		case 'mongodb':
 			CreateFolderAndWrite(
 				'lib',
 				`mongodb${ext}`,
 				GenerateMongodbClient(ext),
+				dir,
 			);
 			break;
 		case 'neo4j':
-			CreateFolderAndWrite('lib', `config${ext}`, GenerateNeo4jConfig());
+			CreateFolderAndWrite(
+				'lib',
+				`config${ext}`,
+				GenerateNeo4jConfig(),
+				dir,
+			);
 			break;
 		case 'pouchdb':
 			// GenerateKyselyAdapter(ext);
 			break;
 		case 'prisma':
-			CreateFolderAndWrite('lib', `prisma${ext}`, GeneratePrismaConfig());
+			CreateFolderAndWrite(
+				'lib',
+				`prisma${ext}`,
+				GeneratePrismaConfig(),
+				dir,
+			);
 			CreateFolderAndWrite(
 				'prisma',
 				`schema.prisma`,
@@ -388,6 +424,7 @@ export const GenerateAdapterConfigurations = async (
 				'lib',
 				`config${ext}`,
 				GenerateSequelizeConfig(),
+				dir,
 			);
 			break;
 		case 'supabase':
@@ -395,6 +432,7 @@ export const GenerateAdapterConfigurations = async (
 				'lib',
 				`config${ext}`,
 				GenerateSupabaseConfig(),
+				dir,
 			);
 			break;
 		case 'upstashRedis':
@@ -402,6 +440,7 @@ export const GenerateAdapterConfigurations = async (
 				'lib',
 				`redis${ext}`,
 				GenerateUpstashRedisConfig(),
+				dir,
 			);
 			break;
 	}
@@ -411,8 +450,12 @@ export const CreateFolderAndWrite = (
 	folder: string,
 	file: string,
 	content: string,
+	dir?: 'src',
 ) => {
-	const lib = path.join(process.cwd(), folder);
+	const lib = path.join(
+		dir ? path.join(process.cwd(), dir) : process.cwd(),
+		folder,
+	);
 	const fileName = path.join(lib, file);
 
 	if (!fs.existsSync(lib)) {
@@ -678,4 +721,146 @@ export const GenerateSveltekitEnvVariables = async (
 	envGenerator.success({
 		text: `${styledEnv} Generated.`,
 	});
+};
+
+// solid helper functions.
+export const GenerateSolidTemplate = (
+	rest: ProviderType,
+	adapter?: AdapterType,
+	env?: boolean,
+	ts?: boolean,
+	secret?: boolean,
+	db?: DbTypes,
+) => {
+	const { allImports: solidImports } = GenerateSolidImports(
+		rest,
+		adapter,
+		ts,
+	);
+
+	const { providerOptions, adapterOptions, secretOptions } =
+		GenerateSolidAuthOptions(rest, adapter, ts, secret);
+
+	return `${solidImports}
+export const authOpts${ts ? ': SolidAuthConfig' : ''} = {
+	providers: [${providerOptions}
+	],${adapterOptions}${secretOptions}
+	debug: false,
+}
+
+export const { GET, POST } = SolidAuth(authOpts)`;
+};
+
+export const GenerateSolidImports = (
+	options: ProviderType,
+	adapter?: AdapterType,
+	ts?: boolean,
+) => {
+	let adapterImports = '',
+		providerImports = `import { SolidAuth${
+			ts ? ', type SolidAuthConfig' : ''
+		} } from "@auth/solid-start";\n`;
+
+	for (let val in options) {
+		const { importOptions } = providers[val as ProviderOptions];
+		for (let { defaultImport, authName, authPath } of importOptions) {
+			providerImports += `import ${
+				defaultImport ? `${authName}` : `{ ${authName} }`
+			} from '${authPath}';\n`;
+		}
+	}
+
+	let temp = ``;
+	for (let val in options) {
+		const {
+			options: { Generator, ...envSecrets },
+		} = providers[val as ProviderOptions];
+
+		for (let [key, value] of Object.entries(envSecrets)) {
+			if (typeof value === 'string') {
+				temp += `${value}-`;
+				continue;
+			}
+			temp += `${value.name}-`;
+		}
+	}
+
+	// logic for adapter imports if any adapters are present...
+	if (adapter && Adapters[adapter]) {
+		let { importOptions } = Adapters[adapter];
+		for (let { defaultImport, name, path } of importOptions) {
+			adapterImports += `import ${
+				defaultImport ? `${name}` : `{ ${name} }`
+			} from '${path}';\n`;
+		}
+	}
+
+	return {
+		allImports: `${providerImports}${adapterImports}`,
+	};
+};
+
+export const GenerateSolidAuthOptions = (
+	options: ProviderType,
+	adapter?: AdapterType,
+	ts?: boolean,
+	secret?: boolean,
+) => {
+	let data = ``,
+		response: {
+			providerOptions: string;
+			adapterOptions: string;
+			secretOptions: string;
+		} = {
+			providerOptions: '',
+			adapterOptions: '',
+			secretOptions: '',
+		};
+	for (const [key, value] of Object.entries(options)) {
+		if (!value) {
+			continue;
+		}
+		let params = '';
+		const {
+			name,
+			options: { Generator, ...contents },
+		} = providers[key as ProviderOptions];
+
+		// console.log('Generator => ', contents);
+		if (Generator && typeof Generator !== 'boolean') {
+			params += Generator();
+		} else {
+			for (const [key, value] of Object.entries(contents)) {
+				if (key === 'Generator') {
+					continue;
+				}
+				if (typeof value === 'string') {
+					params += `\n\t\t\t${key}: process.env.${value}${
+						ts ? ' as string' : ''
+					},`;
+					continue;
+				}
+				const { name, type } = value;
+				params += `\n\t\t\t${key}: process.env.${name}${
+					ts ? ` as ${type}` : ''
+				},`;
+			}
+		}
+
+		data += `\n\t\t${name}({${params}\n\t\t}),`;
+	}
+	response.providerOptions = data;
+
+	// Generating Adapters if any...
+	if (adapter && Adapters[adapter]) {
+		const { adapterParams: params, importName } = Adapters[adapter];
+		response.adapterOptions = `\n\tadapter: ${importName}(${params}),`;
+	}
+
+	// Generating Secret fields if any...
+	if (secret) {
+		response.secretOptions = `\n\tsecret: process.env.AUTH_SECRET,`;
+	}
+
+	return response;
 };

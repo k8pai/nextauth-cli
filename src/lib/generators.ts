@@ -6,12 +6,18 @@ import {
 	CreateFolderAndWrite,
 	GenerateAdapterConfigurations,
 	GenerateEnvVariables,
+	GenerateSolidTemplate,
 	GenerateSveltekitEnvVariables,
 	GenerateSveltekitTemplate,
 	GenerateTemplate,
 	sleep,
 } from './helpers';
-import { ExtentionTypes, OptionsType, SveltekitOptionsType } from '../typings';
+import {
+	ExtentionTypes,
+	OptionsType,
+	SolidOptionsType,
+	SveltekitOptionsType,
+} from '../typings';
 import { Adapters } from './Adapters';
 import { createSpinner } from 'nanospinner';
 
@@ -88,4 +94,54 @@ export const SveltekitGenerator = (
 
 	// Generate env variables in a .env.example files if env flag is provided.
 	GenerateAdapterConfigurations(ext, db, adapter);
+};
+
+export const SolidGenerator = async (options: SolidOptionsType) => {
+	const { ts, adapter, env, db, provider, secret, ...config } = options;
+
+	let baseDirectory = path.join(process.cwd(), 'src');
+	let targetDirectory = path.join(baseDirectory, 'routes/api/auth');
+	let ext: ExtentionTypes = ts ? '.ts' : '.js';
+	let filePath = path.join(targetDirectory, `[...solidauth]${ext}`);
+
+	const solidGenerator = createSpinner('Processing Folder Structure.', {
+		color: 'cyan',
+	}).start();
+
+	if (!fs.existsSync(baseDirectory)) {
+		let styledCommand = yellow(bold('npx solidauth'));
+		let styledIssue = yellow(
+			italic('https://github.com/k8pai/nextauth-cli/issues'),
+		);
+
+		solidGenerator.error({
+			text: `Retry with ${styledCommand} or raise an issue - ${styledIssue}`,
+		});
+		return;
+	}
+	await sleep(400);
+	solidGenerator.success({
+		text: 'Folder Structure.',
+	});
+
+	try {
+		// create initial [...nextauth].{ts/js} files
+		if (!fs.existsSync(targetDirectory)) {
+			fs.mkdirSync(targetDirectory, { recursive: true });
+		}
+
+		fs.writeFileSync(
+			filePath,
+			GenerateSolidTemplate(config, adapter, env, ts, secret, db),
+			'utf-8',
+		);
+
+		// Generate env variables in a .env.example files if env flag is provided.
+		GenerateEnvVariables(options);
+
+		// Generate env variables in a .env.example files if env flag is provided.
+		GenerateAdapterConfigurations(ext, db, adapter, 'src');
+	} catch (error) {
+		console.error(red(error as string));
+	}
 };
